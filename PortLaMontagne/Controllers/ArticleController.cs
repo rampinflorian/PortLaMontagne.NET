@@ -85,10 +85,9 @@ namespace PortLaMontagne.Controllers
             Article article)
         {
             if (!ModelState.IsValid) return View();
-            
-            var art = article;
-            art.Image = await _uploadFile.UploadFormFile(article.FormFile, _configuration.GetSection("defaultPath").GetSection("ImageArticle").Value);
-            art.CreatedAt = DateTime.Now;
+
+            article.Image = await _uploadFile.UploadFormFile(article.FormFile, _configuration.GetSection("defaultPath").GetSection("ImageArticle").Value);
+            article.CreatedAt = DateTime.Now;
             article.Editor = await _manager.GetUserAsync(HttpContext.User);
             
             _dbContext.Add(article);

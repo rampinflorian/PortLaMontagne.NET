@@ -10,7 +10,7 @@ namespace PortLaMontagne.Models
 {
     public class Article
     {
-        public int Id { get; set; }
+        public int ArticleId { get; set; }
         private string _title;
 
         [Required(ErrorMessage = "Le titre est obligatoire")]

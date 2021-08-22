@@ -31,7 +31,7 @@ namespace PortLaMontagne.Repository
         
         public async Task<int> FindActiveByQuantityAsync(int count = 1)
         {
-            return await Context.Articles.Where(a => a.IsPublished).AsNoTracking().Select(a => a.Id).CountAsync();
+            return await Context.Articles.Where(a => a.IsPublished).AsNoTracking().Select(a => a.ArticleId).CountAsync();
         }
 
         public async Task<Article> FindBySlugWithEditorAsync(string slug)

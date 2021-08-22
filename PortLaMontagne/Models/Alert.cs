@@ -7,7 +7,7 @@ namespace PortLaMontagne.Models
 {
     public class Alert
     {
-        public int Id { get; set; }
+        public int AlertId { get; set; }
         public DateTime StartedAt { get; set; }
         public DateTime FinishedAt { get; set; }
     }
