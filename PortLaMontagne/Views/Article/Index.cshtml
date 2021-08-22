@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "Articles";
+}
+
+
+@section Styles
+{
+    <link href="~/css/blog.css" rel="stylesheet"/>
+    <link href="~/css/ss-gizmo.css" rel="stylesheet"/>
+
+}
+
+
+<div class="page">
+    <div class="page-inner p-none">
+        <section class="section-primary pt-40">
+            <div class="container">
+                <div class="sort-destination-loader sort-destination-loader-showing mt-4 pt-2">
+                    <div class="row portfolio-list sort-destination" data-sort-id="portfolio">
+                        @foreach(Article article in Model)
+                        {
+                        <div class="col-lg-6 isotope-item websites">
+                            <article class="v_blog-item v_blog-item-related v_blog-grid">
+                                <div class="v_blog-item-inner">
+                                    <div class="v_blog-item-media">
+                                        <a asp-action="Details" asp-route-slug="@article.Slug">
+                                            <img src="~/img/article/@article.Image" alt="@article.Title"/>
+                                        </a>
+                                    </div>
+                                    <div class="v_blog-item-content">
+                                        <div class="v_blog-item-header">
+                                            <ul class="v_blog-item-meta">
+                                                <li class="v_blog-item-date">
+                                                    @article.CreatedAt.ToString("d") - <i>Commentaires : @article.Comments?.Count</i>
+                                                </li>
+                                            </ul>
+                                            <a asp-action="Details" asp-route-slug="@article.Slug" rel="bookmark">
+                                                <h2 class="v_blog-item-title" itemprop="name headline">@article.Title</h2>
+                                            </a>
+                                        </div>
+                                        <div itemprop="articleBody">
+                                            <p>
+                                                @article.Content.Substring(0, Math.Min(article.Content.Length, 200))
+                                            </p>
+                                            <hr/>
+                                            <p class="v_blog-item-author">
+                                                <a href="#">
+                                                    <img alt="" src="">
+                                                    <span>@article.Editor.UserName</span>
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+        $('.masonary-post-wrap').isotope({
+            itemSelector: '.masonary-post-item',
+            percentPosition: true
+        })
+    </script>
+}

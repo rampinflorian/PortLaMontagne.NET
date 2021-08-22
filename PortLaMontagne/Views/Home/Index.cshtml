@@ -1,0 +1,346 @@
+﻿@model PortLaMontagne.Models.Views.HomeView
+
+@{
+    ViewData["Title"] = "";
+}
+
+@section Styles
+{
+    <!-- Current Page CSS -->
+    <link rel="stylesheet" href="~/vendor/rs-plugin/css/settings.css">
+    <link rel="stylesheet" href="~/vendor/rs-plugin/css/layers.css">
+    <link rel="stylesheet" href="~/vendor/rs-plugin/css/navigation.css">
+
+}
+
+<div class="slider-container rev_slider_wrapper" style="height: 650px;">
+    <div id="revolutionSlider" class="slider rev_slider" data-plugin-revolution-slider data-plugin-options="{'delay': 9000, 'gridwidth': 1170, 'gridheight': 650}">
+        <ul>
+            <li data-transition="fade">
+                <img src="~/img/new/headerFont.jpg"
+                     alt=""
+                     data-bgposition="center center"
+                     data-bgfit="cover"
+                     data-bgrepeat="no-repeat"
+                     class="rev-slidebg">
+
+                <div class="tp-caption fw-7 ls-2 text-uppercase"
+                     data-x="['right','right','right','right']"
+                     data-hoffset="['-80','-80','-80','-80']"
+                     data-y="['center','center','center','center']"
+                     data-voffset="['-50','-50','-50','-50']"
+                     data-start="500"
+                     data-paddingleft="['0', '0', '0', '0']"
+                     style="z-index: 5; font-size: 18px;"
+                     data-transform_in="y:[-300%];opacity:0;s:500;">
+                    Bienvenue sur
+                </div>
+
+                <h1 class="tp-caption text-color-light fw-7 text-uppercase"
+                    data-x="['right','right','right','right']"
+                    data-hoffset="['-200','-200','-200','-200']"
+                    data-y="['center','center','center','center']"
+                    data-voffset="['0','0','0','0']"
+                    data-fontsize="['80', '80', '70', '60']"
+                    data-start="800"
+                    data-paddingleft="['200', '200', '200', '200']"
+                    style="z-index: 5; font-size: 70px;"
+                    data-transform_in="y:[-300%];opacity:0;s:500;">
+                    PORT LA MONTAGNE
+                </h1>
+
+                <div class="tp-caption text-color-light"
+                     data-x="['right','right','right','right']"
+                     data-hoffset="['-81','-81','-81','-81']"
+                     data-y="['center','center','center','center']"
+                     data-voffset="['80','80','80','80']"
+                     data-start="1500"
+                     data-paddingleft="['300', '300', '300', '300']"
+                     data-fontsize="26"
+                     style="z-index: 5;"
+                     data-transform_in="y:[-300%];opacity:0;s:500;">
+                    Ça grimpe autour de Toulon !
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="page-inner p-none">
+<section class="section-primary main-color">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="feature-box left-icon-v2 exp-animation" data-animation="right-to-left" data-delay="200">
+                    <i class="fa fa-cogs v-icon icn-holder medium"></i>
+                    <div class="feature-box-text">
+                        <h3>Découvrir</h3>
+                        <div class="feature-box-text-inner">
+                            <p>
+                                Des articles sur la faune, la flore, la géologie et l'histoire des falaises et de la région Toulonnaise
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="feature-box left-icon-v2 exp-animation" data-animation="right-to-left" data-delay="400">
+                    <i class="fa fa-compress v-icon icn-holder medium"></i>
+                    <div class="feature-box-text">
+                        <h3>Rechercher</h3>
+                        <div class="feature-box-text-inner">
+                            <p>
+                                Un module pour rechercher ou créer votre groupe de sortie !
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="feature-box left-icon-v2 exp-animation" data-animation="right-to-left" data-delay="600">
+                    <i class="fa fa-fire v-icon icn-holder medium"></i>
+                    <div class="feature-box-text">
+                        <h3>Alerter</h3>
+                        <div class="feature-box-text-inner">
+                            <p>
+                                Une fonction "alerte" pour être au courant des dernières actualités sur nos falaises !
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="feature-box left-icon-v2 exp-animation" data-animation="right-to-left" data-delay="800">
+                    <i class="fa fa-comments-o v-icon icn-holder medium"></i>
+                    <div class="feature-box-text">
+                        <h3>Partager</h3>
+                        <div class="feature-box-text-inner">
+                            <p>
+                                Un album photo collaboratif pour partager ses plus beaux clichés sur notre beau rocher
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="v-parallax v-parallax-video" style="padding: 100px 0px !important">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-sm-12 text-center text-white">
+                <div class="v-content-wrapper">
+                    <h2 class="section-title body-font fs-65 lh-72 fw-7">
+                        Notre groupe <strong class="badge badge-vertex fs-46">Facebook</strong>
+                    </h2>
+                    <p class="section-sub-title fs-24 o-9">Recherche de partenaires, organisation de sorties, conseils...</p>
+                    <div class="fb-group" data-href="https://www.facebook.com/groups/1522841554663732/" data-width="350" data-show-social-context="true" data-show-metadata="false"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <video class="parallax-video" poster="~/img/main/climb1.jpg" preload="auto" autoplay loop="loop" muted="muted">
+        <source src="" type="video/mp4"/>
+    </video>
+</div>
+
+<section class="section-primary main-color b-bordered">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="mb-5">
+                    <span>Dernières nouvelles </span>
+                </h2>
+                <p class="section-sub-title">
+                    Retrouvez des articles détaillés sur l'escalade autour de Toulon !
+                </p>
+                <div class="exp-separator">
+                    <div class="exp-separator-inner">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="carousel-wrap mb-30">
+                    <div class="owl-carousel" data-plugin-options='{"items": @Model.Articles.Count, "singleItem": false, "autoPlay": true, "margin":20, "dots":false}'>
+                        @foreach (Article a in Model.Articles)
+                        {
+                            <div class="item exp-animation" data-animation="bottom-to-top" data-delay="200">
+                                <figure class="animated-overlay overlay-alt">
+                                            @* <img src="~/img/article/@a.Image" alt="@a.Title"/> *@
+                                    <a asp-controller="Article" asp-action="Details" asp-route-slug="@a.Slug" class="link-to-post"></a>
+                                    <figcaption>
+                                        <div class="thumb-info thumb-info-v2">
+                                            <i class="fa fa-angle-right"></i>
+                                        </div>
+                                    </figcaption>
+                                </figure>
+                                <div class="portfolio-item-info">
+                                    <h3 class="portfolio-item-title">
+                                        <a asp-controller="Article" asp-action="Details" asp-route-slug="@a.Slug" class="link-to-post">@a.Title</a>
+                                    </h3>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="customNavigation">
+                        <a class="prev">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                        <a class="next">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-md-12">
+                <a class="btn standard lightgrey btn-icon-reveal item-shadow-2x" asp-controller="Article">
+                    <i class="fa fa-diamond"></i>
+                    <span class="text">Voir tous les articles</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section-primary alternate-color b-bordered">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 offset-md-1 counters counters-emel">
+                <div class="row">
+
+                    <div class="col-md-3 col-sm-6">
+                        <div class="counter">
+                            <span class="counter-icon top-icon">
+                                <i class="icon-arrow-up"></i>
+                            </span>
+                            <strong class="counter-number" data-to="2262">2262</strong>
+                            <span class="counter-append">+</span>
+                            <div class="count-divider">
+                                <span style="width: 50px;"></span>
+                            </div>
+                            <span class="text">Longueurs</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6">
+                        <div class="counter">
+                            <span class="counter-icon top-icon">
+                                <i class="icon-sun"></i>
+                            </span>
+                            <strong data-to="300">300</strong>
+                            <span class="counter-append">+</span>
+                            <div class="count-divider">
+                                <span style="width: 50px;"></span>
+                            </div>
+                            <span class="text">Jours de soleil</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6">
+                        <div class="counter">
+                            <span class="counter-icon top-icon">
+                                <i class="icon-scale-tool-1"></i>
+                            </span>
+                            <strong data-to="@Model.CountArticles">@Model.CountArticles</strong>
+                            <span class="counter-append"></span>
+                            <div class="count-divider">
+                                <span style="width: 50px;"></span>
+                            </div>
+                            <span class="text">Articles</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6">
+                        <div class="counter">
+                            <span class="counter-icon top-icon">
+                                <i class="icon-contacts-1"></i>
+                            </span>
+                            <strong data-to="{{ countArticlesComments }}">{{ countArticlesComments }}</strong>
+                            <span class="counter-append"></span>
+                            <div class="count-divider">
+                                <span style="width: 50px;"></span>
+                            </div>
+                            <span class="text">Commentaires sur articles</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section-medium section-arrow--bottom-center" style="background-color: #262626;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-white text-center">
+                <h2 class="section-title ">
+                    Tu as du matos en trop ?
+                    Vend le sur le <span class="primary-color">Market !</span>
+                </h2>
+                <p class="section-sub-title">Echangez, vendez votre matériel...</p>
+                <div class="col-md-12">
+                    <a class="btn standard btn-primary btn-icon-reveal item-shadow-2x" href="{{ path('market_product_index">
+                        <i class="fa fa-shopping-cart"></i>
+                        <span class="text">Accéder au market !</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section-big main-color">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="v-heading-v3">
+                    <h2 class="mb-5">
+                        <span>Nos Partenaires</span>
+                    </h2>
+                    <p class="section-sub-title">Vous êtes liés à la montagne ? Alors votre place est ici !</p>
+                    <div class="exp-separator">
+                        <div class="exp-separator-inner">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="clients-wrap carousel-wrap">
+
+                    <div class="owl-carousel" data-plugin-options='{"items": @Model.Partner.Count , "singleItem": false, "autoPlay": false, "dots":true}'>
+                        @foreach (Partner partner in @Model.Partner)
+                        {
+                            <div class="item">
+                                <figure>
+                                    <a href="@partner.Website" target="_blank">
+                                        <img src="~/img/partner/@partner.Image" alt="@partner.Name"/>
+                                        <img src="~/img/partner/@partner.Image" alt="@partner.Name"/>
+                                    </a>
+                                </figure>
+                            </div>    
+                        }
+                        
+                    </div>
+                    <div class="customNavigation">
+                        <a class="prev">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                        <a class="next">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+
+@section Scripts
+
+{
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v7.0&appId=707631416719225&autoLogAppEvents=1"></script>
+}

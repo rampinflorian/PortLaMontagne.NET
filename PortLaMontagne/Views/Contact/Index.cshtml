@@ -1,0 +1,120 @@
+﻿@model PortLaMontagne.Forms.ContactForm
+@using AspNetCore.ReCaptcha
+@{
+    ViewData["Title"] = "Contactez-nous !";
+}
+<div class="page">
+    <div class="page-inner pt-none">
+        <section class="section-primary alternate-color">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="feature-box feature-box-secundary-one feature-box-shadow">
+                            <div class="feature-box-icon small">
+                                <i class="fa fa-question-circle v-icon"></i>
+                            </div>
+                            <div class="feature-box-text clearfix">
+                                <h3>Une question ?</h3>
+                                <div class="feature-box-text-inner">
+                                    <p>
+                                        tu as des questions sur le site, l'association ou ses membres ?
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="feature-box feature-box-secundary-one feature-box-shadow">
+                            <div class="feature-box-icon small">
+                                <i class="fa fa-support v-icon"></i>
+                            </div>
+                            <div class="feature-box-text">
+                                <h3>Support technique</h3>
+                                <div class="feature-box-text-inner">
+                                    <p>
+                                        Tu souhaites faire remonter un disfonctionnement sur le site ?
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="feature-box feature-box-secundary-one feature-box-shadow">
+                            <div class="feature-box-icon small">
+                                <i class="fa fa-video-camera v-icon"></i>
+                            </div>
+                            <div class="feature-box-text">
+                                <h3>Partenaires</h3>
+                                <div class="feature-box-text-inner">
+                                    <p>
+                                        Toi et nous ? de la visibilité ? un partenariat est toujours possible !
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 left-side-sidebar">
+                    <div class="v-heading-v2">
+                        <h3>Formulaire de contact</h3>
+                    </div>
+                    <p class="mb-60">
+                        Essai d'être explicite dans ta demande, Paul et Florian recevront un email et prendront contact avec toi !
+                    </p>
+                    <form asp-action="Mailer" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Qui suis-je? <span class="required">*</span></label>
+                                    <input asp-for="Username" type="text" class="form-control" placeholder="Qui suis-je ?" required="required" autocomplete="on">
+
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Mon email <span class="required">*</span></label>
+                                    <input asp-for="Email" type="text" class="form-control" placeholder="Qui suis-je ?" required="required" autocomplete="on">
+
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Sujet <span class="required">*</span></label>
+                                    <input asp-for="Subject" type="text" class="form-control" placeholder="Qui suis-je ?" required="required" autocomplete="on">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label>Message <span class="required">*</span></label>
+                                    <textarea asp-for="Content" class="textarea form-control" placeholder="Mon message"  rows="4" required="required"></textarea>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <br>
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Tu es un humain ? <span class="required">*</span></label>
+                                        @Html.ReCaptcha()
+                                    </div>
+                                    <div class="col">
+                                        <button type="submit" class="float-right btn btn-primary btn-md">ENVOYER</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                    <hr class="invisible"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
