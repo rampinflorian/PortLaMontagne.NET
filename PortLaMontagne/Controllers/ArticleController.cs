@@ -120,5 +120,23 @@ namespace PortLaMontagne.Controllers
             
             return RedirectToAction(nameof(Details), new { slug = comment.Article.Slug });
         }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("{slug}/comment/delete")]
+        public async Task<IActionResult> CommentDelete(string slug, int commentId)
+        {
+            var comment = await _context.Comments.FirstOrDefaultAsync(m => m.CommentId == commentId);
+
+            if (comment == null)
+            {
+                return NotFound();
+            }
+            _context.Remove(comment);
+            await _context.SaveChangesAsync();
+            
+            return RedirectToAction(nameof(Details), new { slug });
+        }
     }
 }

@@ -12,205 +12,209 @@
 }
 
 <div class="page-inner t-bordered">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 left-side-sidebar">
-                <div class="post-content-wrap">
-                    <figure class="item-shadow">
-                        <a href="#" class="link-to-post">
-                            <img itemprop="image" src="~/img/article/@ViewBag.Article.Image" alt="">
-                            <div class="post-overlay"></div>
-                        </a>
-                    </figure>
-                    <div class="post-author-wrap mnt-50">
-                        <div class="author-avatar">
-                            <img alt="" src="~/img/user/@ViewBag.Article.Editor.Image" class="avatar photo">
-                        </div>
-                    </div>
-                    <div class="post-meta">
-                        <ul>
-                            <li>
-                                <i class="ion-android-time"></i> @ViewBag.Article.CreatedAt.ToString("D")
-                            </li>
-                            <li class="float-right">
-                                <i class="ion-edit"></i> @ViewBag.Article.Editor.FullName()
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <h1 class="fs-30 pt-20 text-center">@ViewBag.Article.Title</h1>
-                @ViewBag.Article.Content
-                <div class="blog-single-meta">
-                    <div class="post-meta-section clearfix mb-none">
-                        <div class="tag-cloud clearfix">
-                            <ul class="tag-cloud-inner">
-                                <li>
-                                    <a href="#">@ViewBag.Article.Category</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="post-meta-section clearfix">
-                        <div class="blog-single-sharing-box">
-                            <h4>Partager cet article </h4>
-                            <div id="fb-root">
-                                <div class="blog-social-networks boxed-icons">
-                                    <div class="fb-share-button"
-                                         data-href="{{ absolute_url(app.request.uri) }}"
-                                         data-layout="button_count">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="post-meta-section clearfix">
-                        <div class="post-author-avatar">
-                            <img alt="" src="~/img/user/@ViewBag.Article.Editor.Image" class="avatar avatar-100 photo" height="75" width="75">
-                        </div>
-                        <div class="post-author-info">
-                            <h2 class="name title">A propos de l'auteur</h2>
-                            <div class="post-author-description mb-20">
-                                <p>
-                                    <b>@ViewBag.Article.Editor.FullName()</b> <br>
-                                    @ViewBag.Article.Editor.Description
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="post-meta-section clearfix">
-                        <div class="post-block post-comments clearfix">
-                            <div class="post-meta-section-title b-bordered pb-30">
-                                <h4><i class="ion-android-chat pr-sm fs-16"></i> COMMENTAIRES (@ViewBag.Comments.Count)</h4>
-                            </div>
-
-                            @foreach (Comment comment in @ViewBag.Comments)
-                            {
-                                <ul class="comments pt-30">
-                                    <li>
-                                        <div class="comment">
-                                            <div class="img-thumbnail">
-                                                <img class="avatar" alt="Vertex" src="">
-                                            </div>
-                                            <div class="comment-block">
-                                                <span class="comment-by">
-                                                    <strong>@comment.ApplicationUser.FullName()</strong>
-
-                                                    @if (comment.ApplicationUser == await UserManager.GetUserAsync(User))
-                                                    {
-                                                        <div class="pull-right">
-                                                            <a href="{{ path('comment_delete', {'comment': comment.id}) }}" class="href">
-                                                                <button>
-                                                                    <i class="ion-android-delete"></i>
-                                                                </button>
-                                                            </a>
-                                                        </div>
-                                                    }
-
-                                                </span>
-                                                <span class="date">@comment.CreatedAt.ToString("g")</span>
-                                                <p class="desc">
-                                                    @comment.Content
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            }
-                        </div>
-                    </div>
-                    <div class="post-meta-section clearfix">
-                        <div class="post-meta-section-title">
-                            <h4><i class="fa fa-align-left pr-sm"></i> JE COMMENTE !</h4>
-                        </div>
-                        
-                        @{
-                            List<Comment> comments = ViewBag.Comments;
-                            ApplicationUser currentUser = await UserManager.GetUserAsync(User);
-                        }
-                        
-                        @if(comments.All(m => m.ApplicationUser != currentUser))
-                        {
-                        <div class="post-block post-leave-comment">
-                            <form asp-action="Comment" asp-route-slug="@ViewBag.Article.Slug">
-                                @Html.AntiForgeryToken()
-                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <span asp-validation-for="@Model.Content" class="text-danger"></span>
-                                            <textarea asp-for="@Model.Content" class="form-control" maxlength="2000" rows="9" placeholder="Inscris ton message..."></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12 pt-md">
-                                        <input type="submit" value="COMMENTER" class="btn btn-primary" data-loading-text="Chargement...">
-                                    </div>
-                                </div>
-                            </form>
-                            </div>
-                        }
-                        <i>Hé..psstt ! Tu as déjà commenté cet article !</i>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 right-side-sidebar">
-                <aside class="sidebar">
-                    <section class="clean-sidebar sidebar-widget text-center">
-                        <div class="join-us-form mt-35">
-                            <h4 class="fs-16">
-                                <b>Restez informé des nouveaux articles </b>
-                            </h4>
-                            {% if not app.user or (app.user.newsletter is null or not app.user.newsletter.isActivated) %}
-                            <div class="input-group mt-15">
-                                <a href="{{ path('newsletter_add') }}" class="btn btn-primary btn-shadow content-center w-100" type="submit">S'INSCRIRE</a>
-                            </div>
-                            {% else %}
-                            <div class="input-group mt-15">
-                                <a href="{{ path('newsletter_remove') }}" class="btn btn-primary btn-shadow content-center w-100" type="submit">SE DESINSCRIRE</a>
-                            </div>
-                            {% endif %}
-                            <small>Aucun spam ne sera envoyé.</small>
-                        </div>
-                    </section>
-                    <section class="sidebar-widget">
-                        <div class="heading">
-                            <h4 class="title">Articles récents</h4>
-                        </div>
-                        <div class="sidebar-widget-inner">
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="popular" role="tabpanel">
-                                    @foreach (Article a in ViewBag.RecentArticles)
-                                    {
-                                        <div class="spost clearfix">
-                                            <div class="entry-image">
-                                                <a asp-action="Details" asp-route-slug="@a.Slug" class="nobg">
-                                                    <img class="img-circle" src="~/img/article/@a.Image" alt="@a.Title">
-                                                </a>
-                                            </div>
-                                            <div class="entry-c">
-                                                <div class="entry-title">
-                                                    <h4>
-                                                        <a asp-action="Details" asp-route-slug="@a.Slug">@a.Title</a>
-                                                    </h4>
-                                                </div>
-                                                <ul class="entry-meta">
-                                                    <li>
-                                                        <i class="ion-ios-calendar-outline"></i> @a.CreatedAt.ToString("d")
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </aside>
+<div class="container">
+<div class="row">
+<div class="col-md-8 left-side-sidebar">
+    <div class="post-content-wrap">
+        <figure class="item-shadow">
+            <a href="#" class="link-to-post">
+                <img itemprop="image" src="~/img/article/@ViewBag.Article.Image" alt="">
+                <div class="post-overlay"></div>
+            </a>
+        </figure>
+        <div class="post-author-wrap mnt-50">
+            <div class="author-avatar">
+                <img alt="" src="~/img/user/@ViewBag.Article.Editor.Image" class="avatar photo">
             </div>
         </div>
+        <div class="post-meta">
+            <ul>
+                <li>
+                    <i class="ion-android-time"></i> @ViewBag.Article.CreatedAt.ToString("D")
+                </li>
+                <li class="float-right">
+                    <i class="ion-edit"></i> @ViewBag.Article.Editor.FullName()
+                </li>
+            </ul>
+        </div>
     </div>
+    <h1 class="fs-30 pt-20 text-center">@ViewBag.Article.Title</h1>
+    @ViewBag.Article.Content
+    <div class="blog-single-meta">
+        <div class="post-meta-section clearfix mb-none">
+            <div class="tag-cloud clearfix">
+                <ul class="tag-cloud-inner">
+                    <li>
+                        <a href="#">@ViewBag.Article.Category</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="post-meta-section clearfix">
+            <div class="blog-single-sharing-box">
+                <h4>Partager cet article </h4>
+                <div id="fb-root">
+                    <div class="blog-social-networks boxed-icons">
+                        <div class="fb-share-button"
+                             data-href="{{ absolute_url(app.request.uri) }}"
+                             data-layout="button_count">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="post-meta-section clearfix">
+            <div class="post-author-avatar">
+                <img alt="" src="~/img/user/@ViewBag.Article.Editor.Image" class="avatar avatar-100 photo" height="75" width="75">
+            </div>
+            <div class="post-author-info">
+                <h2 class="name title">A propos de l'auteur</h2>
+                <div class="post-author-description mb-20">
+                    <p>
+                        <b>@ViewBag.Article.Editor.FullName()</b> <br>
+                        @ViewBag.Article.Editor.Description
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="post-meta-section clearfix">
+            <div class="post-block post-comments clearfix">
+                <div class="post-meta-section-title b-bordered pb-30">
+                    <h4><i class="ion-android-chat pr-sm fs-16"></i> COMMENTAIRES (@ViewBag.Comments.Count)</h4>
+                </div>
+
+                @foreach (Comment comment in @ViewBag.Comments)
+                {
+                    <ul class="comments pt-30">
+                        <li>
+                            <div class="comment">
+                                <div class="img-thumbnail">
+                                    <img class="avatar" alt="Profile" src="~/img/user/@comment.ApplicationUser.Image">
+                                </div>
+                                <div class="comment-block">
+                                    <span class="comment-by">
+                                        <strong>@comment.ApplicationUser.FullName()</strong>
+
+                                        @if (comment.ApplicationUser == await UserManager.GetUserAsync(User))
+                                        {
+                                            <div class="pull-right mt-3">
+                                                <form asp-action="CommentDelete" asp-route-slug="@ViewBag.Article.Slug">
+                                                    @Html.AntiForgeryToken()
+                                                    <input type="hidden" asp-for="CommentId" value="@comment.CommentId"/>
+                                                    <button class="btn btn-light btn-sm" type="submit"><i class="ion-android-delete"></i></button>
+                                                </form>
+                                            </div>
+                                        }
+
+                                    </span>
+                                    <span class="date">@comment.CreatedAt.ToString("g")</span>
+                                    <p class="desc">
+                                        @comment.Content
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                }
+            </div>
+        </div>
+        <div class="post-meta-section clearfix">
+            <div class="post-meta-section-title">
+                <h4><i class="fa fa-align-left pr-sm"></i> JE COMMENTE !</h4>
+            </div>
+
+            @{
+                List<Comment> comments = ViewBag.Comments;
+                ApplicationUser currentUser = await UserManager.GetUserAsync(User);
+            }
+
+            @if (comments.All(m => m.ApplicationUser != currentUser))
+            {
+                <div class="post-block post-leave-comment">
+                    <form asp-action="Comment" asp-route-slug="@ViewBag.Article.Slug">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <span asp-validation-for="@Model.Content" class="text-danger"></span>
+                                    <textarea asp-for="@Model.Content" class="form-control" maxlength="2000" rows="9" placeholder="Inscris ton message..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 pt-md">
+                                <input type="submit" value="COMMENTER" class="btn btn-primary" data-loading-text="Chargement...">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <i>Hé..psstt ! Tu as déjà commenté cet article !</i>    
+            }
+            
+        </div>
+    </div>
+</div>
+<div class="col-md-4 right-side-sidebar">
+    <aside class="sidebar">
+        <section class="clean-sidebar sidebar-widget text-center">
+            <div class="join-us-form mt-35">
+                <h4 class="fs-16">
+                    <b>Restez informé des nouveaux articles </b>
+                </h4>
+                {% if not app.user or (app.user.newsletter is null or not app.user.newsletter.isActivated) %}
+                <div class="input-group mt-15">
+                    <a href="{{ path('newsletter_add') }}" class="btn btn-primary btn-shadow content-center w-100" type="submit">S'INSCRIRE</a>
+                </div>
+                {% else %}
+                <div class="input-group mt-15">
+                    <a href="{{ path('newsletter_remove') }}" class="btn btn-primary btn-shadow content-center w-100" type="submit">SE DESINSCRIRE</a>
+                </div>
+                {% endif %}
+                <small>Aucun spam ne sera envoyé.</small>
+            </div>
+        </section>
+        <section class="sidebar-widget">
+            <div class="heading">
+                <h4 class="title">Articles récents</h4>
+            </div>
+            <div class="sidebar-widget-inner">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="popular" role="tabpanel">
+                        @foreach (Article a in ViewBag.RecentArticles)
+                        {
+                            <div class="spost clearfix">
+                                <div class="entry-image">
+                                    <a asp-action="Details" asp-route-slug="@a.Slug" class="nobg">
+                                        <img class="img-circle" src="~/img/article/@a.Image" alt="@a.Title">
+                                    </a>
+                                </div>
+                                <div class="entry-c">
+                                    <div class="entry-title">
+                                        <h4>
+                                            <a asp-action="Details" asp-route-slug="@a.Slug">@a.Title</a>
+                                        </h4>
+                                    </div>
+                                    <ul class="entry-meta">
+                                        <li>
+                                            <i class="ion-ios-calendar-outline"></i> @a.CreatedAt.ToString("d")
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+    </aside>
+</div>
+</div>
+</div>
 </div>
 
 @section Scripts

@@ -22,6 +22,7 @@ namespace PortLaMontagne.Controllers
         {
             ViewBag.Articles = await  _context.Articles.Where(m => m.IsPublished == true).ToListAsync();
             ViewBag.Partners = await _context.Partners.ToListAsync();
+            ViewBag.CommentsCount = await _context.Comments.CountAsync();
 
             return View();
         }
