@@ -1,6 +1,4 @@
-﻿@model PortLaMontagne.Models.Views.HomeView
-
-@{
+﻿@{
     ViewData["Title"] = "";
 }
 
@@ -164,12 +162,12 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="carousel-wrap mb-30">
-                    <div class="owl-carousel" data-plugin-options='{"items": @Model.Articles.Count, "singleItem": false, "autoPlay": true, "margin":20, "dots":false}'>
-                        @foreach (Article a in Model.Articles)
+                    <div class="owl-carousel" data-plugin-options='{"items": @ViewBag.articles.Count, "singleItem": false, "autoPlay": true, "margin":20, "dots":false}'>
+                        @foreach (Article a in ViewBag.Articles)
                         {
                             <div class="item exp-animation" data-animation="bottom-to-top" data-delay="200">
                                 <figure class="animated-overlay overlay-alt">
-                                            @* <img src="~/img/article/@a.Image" alt="@a.Title"/> *@
+                                            <img src="~/img/article/@a.Image" alt="@a.Title"/>
                                     <a asp-controller="Article" asp-action="Details" asp-route-slug="@a.Slug" class="link-to-post"></a>
                                     <figcaption>
                                         <div class="thumb-info thumb-info-v2">
@@ -245,7 +243,7 @@
                             <span class="counter-icon top-icon">
                                 <i class="icon-scale-tool-1"></i>
                             </span>
-                            <strong data-to="@Model.CountArticles">@Model.CountArticles</strong>
+                            <strong data-to="@ViewBag.Articles.Count">@ViewBag.Articles.Count</strong>
                             <span class="counter-append"></span>
                             <div class="count-divider">
                                 <span style="width: 50px;"></span>
@@ -309,8 +307,8 @@
             <div class="col-sm-12">
                 <div class="clients-wrap carousel-wrap">
 
-                    <div class="owl-carousel" data-plugin-options='{"items": @Model.Partner.Count , "singleItem": false, "autoPlay": false, "dots":true}'>
-                        @foreach (Partner partner in @Model.Partner)
+                    <div class="owl-carousel" data-plugin-options='{"items": @ViewBag.Partners.Count , "singleItem": false, "autoPlay": false, "dots":true}'>
+                        @foreach (Partner partner in @ViewBag.Partners)
                         {
                             <div class="item">
                                 <figure>

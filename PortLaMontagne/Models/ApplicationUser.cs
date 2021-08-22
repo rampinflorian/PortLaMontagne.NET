@@ -9,6 +9,13 @@ namespace PortLaMontagne.Models
         [PersonalData]
         public string Image { get; set; }
         public string Dificulty { get; set; }
-        
+        public string FirstName { get; set; } 
+        public string LastName { get; set; }
+
+        public string FullName()
+        {
+            return FirstName + " " + LastName;
+        }
+
     }
 }

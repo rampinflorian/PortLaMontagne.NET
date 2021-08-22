@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MimeKit;
 using PortLaMontagne.Models;
-using PortLaMontagne.Repository;
 using PortLaMontagne.Services;
 
 namespace PortLaMontagne
@@ -46,7 +45,6 @@ namespace PortLaMontagne
             //SERVICES 
             services.AddTransient<MailerService>();
             services.AddTransient<MimeMessage>();
-            services.AddTransient<ArticleRepository>();
             services.AddTransient<UploadFile>();
 
 

@@ -1,19 +1,13 @@
-﻿#nullable enable
-using System;
-using System.IO;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using PortLaMontagne.Data;
 using PortLaMontagne.Models;
-using PortLaMontagne.Models.Views;
-using PortLaMontagne.Repository;
 using PortLaMontagne.Services;
 
 namespace PortLaMontagne.Controllers
@@ -21,57 +15,58 @@ namespace PortLaMontagne.Controllers
     [Route("articles")]
     public class ArticleController : Controller
     {
-        private readonly ILogger<ArticleController> _logger;
-        private readonly ApplicationDbContext _dbContext;
-        private readonly ArticleRepository _articleRepository;
+        private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _manager;
         private readonly UploadFile _uploadFile;
         private readonly IConfiguration _configuration;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ArticleController(ILogger<ArticleController> logger, ApplicationDbContext dbContext,
-            ArticleRepository articleRepository, UserManager<ApplicationUser> manager, UploadFile uploadFile, IConfiguration configuration)
+        public ArticleController(ApplicationDbContext context, UserManager<ApplicationUser> manager,
+            UploadFile uploadFile, IConfiguration configuration, UserManager<ApplicationUser> userManager)
         {
-            _logger = logger;
-            _dbContext = dbContext;
-            _articleRepository = articleRepository;
+            _context = context;
             _manager = manager;
             _uploadFile = uploadFile;
             _configuration = configuration;
+            _userManager = userManager;
         }
 
-        [Route("")]
+        [Route("", Name = "article.index")]
         public async Task<IActionResult> Index()
         {
-            return View(await _articleRepository.FindActiveAsync(true));
+            return View(await _context.Articles.Include(m => m.Editor).Where(m => m.IsPublished)
+                .OrderByDescending(m => m.CreatedAt).ToListAsync());
         }
 
-        [Route("{slug}")]
-        public async Task<IActionResult> Details(string? slug)
+        [Route("{slug}", Name = "article.details")]
+        public async Task<IActionResult> Details(string slug)
         {
             if (slug == null)
             {
                 return NotFound();
             }
 
-            var article = await _articleRepository.FindBySlugWithEditorAsync(slug);
-
+            var article = await _context.Articles.Include(m => m.Editor).Where(m => m.Slug == slug)
+                .FirstOrDefaultAsync();
 
             if (article == null)
             {
                 return NotFound();
             }
 
-            return View(new ArticleDetailsView
+            ViewBag.Article = article;
+            ViewBag.Comments = await _context.Comments.Where(m => m.Article == article).ToListAsync();
+            ViewBag.RecentArticles = await _context.Articles
+                .Where(a => a.IsPublished && a.Slug != slug).Take(4).ToListAsync();
+
+            return View(new Comment()
             {
-                Article = article,
-                RecentArticles = await _dbContext.Articles
-                    .Where(a => a.IsPublished && a.Slug != slug).Take(4)
-                    .ToListAsync()
+                Article = article
             });
         }
 
         [Authorize]
-        [Route("create")]
+        [Route("create", Name = "article.create")]
         public IActionResult Create()
         {
             return View(new Article());
@@ -80,20 +75,50 @@ namespace PortLaMontagne.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("create")]
-        public async Task<IActionResult> Create([Bind("Title, Content, IsPublished, Category, FormFile")]
+        [Route("create", Name = "article.create")]
+        public async Task<IActionResult> Create(
+            [Bind("Title, Content, IsPublished, Category, FormFile")]
             Article article)
         {
             if (!ModelState.IsValid) return View();
 
-            article.Image = await _uploadFile.UploadFormFile(article.FormFile, _configuration.GetSection("defaultPath").GetSection("ImageArticle").Value);
+            article.Image = await _uploadFile.UploadFormFile(article.FormFile,
+                _configuration.GetSection("defaultPath").GetSection("ImageArticle").Value);
             article.CreatedAt = DateTime.Now;
             article.Editor = await _manager.GetUserAsync(HttpContext.User);
-            
-            _dbContext.Add(article);
-            await _dbContext.SaveChangesAsync();
-            
+
+            _context.Add(article);
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("{slug}/comment", Name = "article.comment")]
+        public async Task<IActionResult> Comment(Comment comment, string slug)
+        {
+            if (comment == null)
+            {
+                return NoContent();
+            }
+
+            var article = await _context.Articles.Where(m => m.Slug == slug)
+                .FirstOrDefaultAsync();
+            
+            if (article == null)
+            {
+                return NotFound();
+            }
+            comment.Article = article;
+            comment.ApplicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            comment.CreatedAt = DateTime.Now;
+
+            await _context.AddAsync(comment);
+            await _context.SaveChangesAsync();
+            
+            return RedirectToAction(nameof(Details), new { slug = comment.Article.Slug });
         }
     }
 }

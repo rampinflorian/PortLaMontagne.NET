@@ -44,13 +44,12 @@ namespace PortLaMontagne.Models
         public string Slug
         {
             get => _slug;
-            set
+            private set
             {
                 var helper = new SlugHelper();
                 _slug = helper.GenerateSlug(value);
             }
         }
-
         public Article()
         {
             CreatedAt = DateTime.Now;

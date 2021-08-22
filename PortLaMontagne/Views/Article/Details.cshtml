@@ -1,4 +1,11 @@
-﻿@model PortLaMontagne.Models.Views.ArticleDetailsView
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Http
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@model Comment
+
+
 
 @{
     ViewData["Title"] = "Articles";
@@ -11,34 +18,34 @@
                 <div class="post-content-wrap">
                     <figure class="item-shadow">
                         <a href="#" class="link-to-post">
-                            <img itemprop="image" src="~/img/article/@Model.Article.Image" alt="">
+                            <img itemprop="image" src="~/img/article/@ViewBag.Article.Image" alt="">
                             <div class="post-overlay"></div>
                         </a>
                     </figure>
                     <div class="post-author-wrap mnt-50">
                         <div class="author-avatar">
-                            <img alt="" src="~/img/user/@Model.Article.Editor.Image" class="avatar photo">
+                            <img alt="" src="~/img/user/@ViewBag.Article.Editor.Image" class="avatar photo">
                         </div>
                     </div>
                     <div class="post-meta">
                         <ul>
                             <li>
-                                <i class="ion-android-time"></i> @Model.Article.CreatedAt.ToString("D")
+                                <i class="ion-android-time"></i> @ViewBag.Article.CreatedAt.ToString("D")
                             </li>
                             <li class="float-right">
-                                <i class="ion-edit"></i> @Model.Article.Editor.UserName
+                                <i class="ion-edit"></i> @ViewBag.Article.Editor.FullName()
                             </li>
                         </ul>
                     </div>
                 </div>
-                <h1 class="fs-30 pt-20 text-center">@Model.Article.Title</h1>
-                @Model.Article.Content
+                <h1 class="fs-30 pt-20 text-center">@ViewBag.Article.Title</h1>
+                @ViewBag.Article.Content
                 <div class="blog-single-meta">
                     <div class="post-meta-section clearfix mb-none">
                         <div class="tag-cloud clearfix">
                             <ul class="tag-cloud-inner">
                                 <li>
-                                    <a href="#">@Model.Article.Category</a>
+                                    <a href="#">@ViewBag.Article.Category</a>
                                 </li>
                             </ul>
                         </div>
@@ -58,14 +65,14 @@
                     </div>
                     <div class="post-meta-section clearfix">
                         <div class="post-author-avatar">
-                            <img alt="" src="~/img/user/@Model.Article.Editor.Image" class="avatar avatar-100 photo" height="75" width="75">
+                            <img alt="" src="~/img/user/@ViewBag.Article.Editor.Image" class="avatar avatar-100 photo" height="75" width="75">
                         </div>
                         <div class="post-author-info">
                             <h2 class="name title">A propos de l'auteur</h2>
                             <div class="post-author-description mb-20">
                                 <p>
-                                    <b>@Model.Article.Editor</b> <br>
-                                    @Model.Article.Editor.Description
+                                    <b>@ViewBag.Article.Editor.FullName()</b> <br>
+                                    @ViewBag.Article.Editor.Description
                                 </p>
                             </div>
                         </div>
@@ -73,73 +80,78 @@
                     <div class="post-meta-section clearfix">
                         <div class="post-block post-comments clearfix">
                             <div class="post-meta-section-title b-bordered pb-30">
-                                <h4><i class="ion-android-chat pr-sm fs-16"></i> COMMENTAIRES ({{ comments|length }})</h4>
+                                <h4><i class="ion-android-chat pr-sm fs-16"></i> COMMENTAIRES (@ViewBag.Comments.Count)</h4>
                             </div>
-                            {% for comment in comments %}
-                            <ul class="comments pt-30">
-                                <li>
-                                    <div class="comment">
-                                        <div class="img-thumbnail">
-                                            <img class="avatar" alt="Vertex" src="">
+
+                            @foreach (Comment comment in @ViewBag.Comments)
+                            {
+                                <ul class="comments pt-30">
+                                    <li>
+                                        <div class="comment">
+                                            <div class="img-thumbnail">
+                                                <img class="avatar" alt="Vertex" src="">
+                                            </div>
+                                            <div class="comment-block">
+                                                <span class="comment-by">
+                                                    <strong>@comment.ApplicationUser.FullName()</strong>
+
+                                                    @if (comment.ApplicationUser == await UserManager.GetUserAsync(User))
+                                                    {
+                                                        <div class="pull-right">
+                                                            <a href="{{ path('comment_delete', {'comment': comment.id}) }}" class="href">
+                                                                <button>
+                                                                    <i class="ion-android-delete"></i>
+                                                                </button>
+                                                            </a>
+                                                        </div>
+                                                    }
+
+                                                </span>
+                                                <span class="date">@comment.CreatedAt.ToString("g")</span>
+                                                <p class="desc">
+                                                    @comment.Content
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div class="comment-block">
-                                            <span class="comment-by">
-                                                <strong>{{ comment.user.fullName }}</strong>
-                                                {% if (comment.user == app.user) %}
-                                                <div class="pull-right">
-                                                    <a href="{{ path('comment_delete', {'comment': comment.id}) }}" class="href">
-                                                        <button>
-                                                            <i class="ion-android-delete"></i>
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                                {% endif %}
-                                            </span>
-                                            <span class="date">{{ comment.createdAt|format_datetime(locale='fr') }}</span>
-                                            <p class="desc">
-                                                {{ comment.content|raw|nl2br }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                            {% endfor %}
+                                    </li>
+                                </ul>
+                            }
                         </div>
                     </div>
                     <div class="post-meta-section clearfix">
                         <div class="post-meta-section-title">
                             <h4><i class="fa fa-align-left pr-sm"></i> JE COMMENTE !</h4>
                         </div>
-                        {% if app.user %}
-                        {% if not alreadyComment %}
+                        
+                        @{
+                            List<Comment> comments = ViewBag.Comments;
+                            ApplicationUser currentUser = await UserManager.GetUserAsync(User);
+                        }
+                        
+                        @if(comments.All(m => m.ApplicationUser != currentUser))
+                        {
                         <div class="post-block post-leave-comment">
-                            {{ form_start(formComment) }}
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        {{ form_errors(formComment.content) }}
-                                        {{ form_widget(formComment.content) }}
+                            <form asp-action="Comment" asp-route-slug="@ViewBag.Article.Slug">
+                                @Html.AntiForgeryToken()
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <span asp-validation-for="@Model.Content" class="text-danger"></span>
+                                            <textarea asp-for="@Model.Content" class="form-control" maxlength="2000" rows="9" placeholder="Inscris ton message..."></textarea>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 pt-md">
-                                    <input type="submit" value="COMMENTER" class="btn btn-primary" data-loading-text="Chargement...">
+                                <div class="row">
+                                    <div class="col-md-12 pt-md">
+                                        <input type="submit" value="COMMENTER" class="btn btn-primary" data-loading-text="Chargement...">
+                                    </div>
                                 </div>
+                            </form>
                             </div>
-                            {{ form_end(formComment) }}
-                        </div>
-                        {% else %}
+                        }
                         <i>Hé..psstt ! Tu as déjà commenté cet article !</i>
-                        {% endif %}
-                        {% else %}
-                        <i>Tu dois d'abord te connecter pour commenter l'article</i>
-                        <div class="pull-right">
-                            <a href="{{ path('app_login') }}" class="href">
-                                <button class="btn btn-primary">SE CONNECTER</button>
-                            </a>
-                        </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -169,7 +181,7 @@
                         <div class="sidebar-widget-inner">
                             <div class="tab-content">
                                 <div class="tab-pane active" id="popular" role="tabpanel">
-                                    @foreach (Article a in Model.RecentArticles)
+                                    @foreach (Article a in ViewBag.RecentArticles)
                                     {
                                         <div class="spost clearfix">
                                             <div class="entry-image">
