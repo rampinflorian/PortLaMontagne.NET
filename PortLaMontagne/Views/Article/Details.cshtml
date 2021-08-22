@@ -1,14 +1,13 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Microsoft.AspNetCore.Http
+﻿@model Comment
+
+@using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-@model Comment
-
-
-
 @{
     ViewData["Title"] = "Articles";
+    List<Comment> comments = ViewBag.Comments;
+    ApplicationUser currentUser = await UserManager.GetUserAsync(User);
 }
 
 <div class="page-inner t-bordered">
@@ -101,7 +100,9 @@
                                                 <form asp-action="CommentDelete" asp-route-slug="@ViewBag.Article.Slug">
                                                     @Html.AntiForgeryToken()
                                                     <input type="hidden" asp-for="CommentId" value="@comment.CommentId"/>
-                                                    <button class="btn btn-light btn-sm" type="submit"><i class="ion-android-delete"></i></button>
+                                                    <button class="btn btn-light btn-sm" type="submit">
+                                                        <i class="ion-android-delete"></i>
+                                                    </button>
                                                 </form>
                                             </div>
                                         }
@@ -123,39 +124,36 @@
                 <h4><i class="fa fa-align-left pr-sm"></i> JE COMMENTE !</h4>
             </div>
 
-            @{
-                List<Comment> comments = ViewBag.Comments;
-                ApplicationUser currentUser = await UserManager.GetUserAsync(User);
-            }
 
-            @if (comments.All(m => m.ApplicationUser != currentUser))
-            {
-                <div class="post-block post-leave-comment">
-                    <form asp-action="Comment" asp-route-slug="@ViewBag.Article.Slug">
-                        @Html.AntiForgeryToken()
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @if (comments.All(m => m.ApplicationUser != currentUser))
+                {
+                    <div class="post-block post-leave-comment">
+                        <form asp-action="Comment" asp-route-slug="@ViewBag.Article.Slug">
+                            @Html.AntiForgeryToken()
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <span asp-validation-for="@Model.Content" class="text-danger"></span>
-                                    <textarea asp-for="@Model.Content" class="form-control" maxlength="2000" rows="9" placeholder="Inscris ton message..."></textarea>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span asp-validation-for="@Model.Content" class="text-danger"></span>
+                                        <textarea asp-for="@Model.Content" class="form-control" maxlength="2000" rows="9" placeholder="Inscris ton message..."></textarea>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 pt-md">
-                                <input type="submit" value="COMMENTER" class="btn btn-primary" data-loading-text="Chargement...">
+                            <div class="row">
+                                <div class="col-md-12 pt-md">
+                                    <input type="submit" value="COMMENTER" class="btn btn-primary" data-loading-text="Chargement...">
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                </div>
-            }
-            else
-            {
-                <i>Hé..psstt ! Tu as déjà commenté cet article !</i>    
-            }
-            
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <i>Hé..psstt ! Tu as déjà commenté cet article !</i>
+                }
+
+
         </div>
     </div>
 </div>
@@ -166,16 +164,27 @@
                 <h4 class="fs-16">
                     <b>Restez informé des nouveaux articles </b>
                 </h4>
-                {% if not app.user or (app.user.newsletter is null or not app.user.newsletter.isActivated) %}
-                <div class="input-group mt-15">
-                    <a href="{{ path('newsletter_add') }}" class="btn btn-primary btn-shadow content-center w-100" type="submit">S'INSCRIRE</a>
-                </div>
-                {% else %}
-                <div class="input-group mt-15">
-                    <a href="{{ path('newsletter_remove') }}" class="btn btn-primary btn-shadow content-center w-100" type="submit">SE DESINSCRIRE</a>
-                </div>
-                {% endif %}
-                <small>Aucun spam ne sera envoyé.</small>
+
+                @if (currentUser == null || !currentUser.IsNewsletter)
+                {
+                    <div class="mt-15">
+                        <form asp-action="UpdateNewsletterStatus" asp-route-slug="@ViewBag.Article.Slug">
+                            @Html.AntiForgeryToken()
+                            <button class="btn btn-primary btn-shadow w-100" type="submit">S'INSCRIRE</button>
+                        </form>
+                    </div>
+
+                    <small>Aucun spam ne sera envoyé.</small>
+                }
+                else
+                {
+                    <div class="mt-15">
+                        <form asp-action="UpdateNewsletterStatus" asp-route-slug="@ViewBag.Article.Slug">
+                            @Html.AntiForgeryToken()
+                            <button class="btn btn-primary btn-shadow w-100" type="submit">SE DESINSCRIRE</button>
+                        </form>
+                    </div>
+                }
             </div>
         </section>
         <section class="sidebar-widget">

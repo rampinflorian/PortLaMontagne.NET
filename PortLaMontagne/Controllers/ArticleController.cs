@@ -111,8 +111,18 @@ namespace PortLaMontagne.Controllers
             {
                 return NotFound();
             }
-            comment.Article = article;
-            comment.ApplicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            var isAlreadyCommented =
+                _context.Comments.Any(m => m.ApplicationUser == currentUser && m.Article == article);
+
+            if (isAlreadyCommented)
+            {
+                return NotFound();
+            }
+            
+            comment.Article = article;;
+            comment.ApplicationUser = currentUser;
             comment.CreatedAt = DateTime.Now;
 
             await _context.AddAsync(comment);
@@ -136,6 +146,25 @@ namespace PortLaMontagne.Controllers
             _context.Remove(comment);
             await _context.SaveChangesAsync();
             
+            return RedirectToAction(nameof(Details), new { slug });
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("{slug}/newsletter/update")]
+        public async Task<IActionResult> UpdateNewsletterStatus(string slug)
+        {
+            var applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (applicationUser == null)
+            {
+                return NotFound();
+            }
+            applicationUser.IsNewsletter = !applicationUser.IsNewsletter;
+
+            _context.Update(applicationUser);
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Details), new { slug });
         }
     }

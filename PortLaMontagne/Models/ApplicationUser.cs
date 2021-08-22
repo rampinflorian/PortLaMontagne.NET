@@ -11,6 +11,7 @@ namespace PortLaMontagne.Models
         public string Dificulty { get; set; }
         public string FirstName { get; set; } 
         public string LastName { get; set; }
+        public bool IsNewsletter { get; set; } = false;
 
         public string FullName()
         {
