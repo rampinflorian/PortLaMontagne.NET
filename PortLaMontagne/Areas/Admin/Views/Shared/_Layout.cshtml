@@ -1,4 +1,19 @@
-﻿% block body %}
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <partial name="Head"/>
+    <title>
+        @ViewData["Title"]
+        @((string)ViewData["Title"] != "" ? "| " : " ") Administration | portlamontagne.fr | Ça grimpe autour de Toulon !
+    </title>
+    @await RenderSectionAsync("Styles", false)
+</head>
+<body>
+<!--Header-->
+<partial name="Headerbody"/>
+<!--End Header-->
+<div class="wrapper">
+    <div flashes></div>
     <section class="page-header b-bordered">
         <div class="container">
             <div class="row">
@@ -17,44 +32,60 @@
                             <li class="active">
                                 <label class="tree-toggler nav-header">Administration</label>
                                 <ul class="nav nav-list tree">
-                                    <li><a href="{{ path('admin_dashboard_index') }}"><i class="fa fa-dashboard"></i>Tableau de bord</a></li>
+                                    <li>
+                                        <a href="{{ path('admin_dashboard_index') }}"><i class="fa fa-dashboard"></i>Tableau de bord</a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="active">
                                 <label class="tree-toggler nav-header">Articles</label>
                                 <ul class="nav nav-list tree">
-                                    <li><a href="{{ path('admin_article_index') }}"><i class="fa fa-list"></i>Liste</a></li>
-                                    <li><a href="{{ path('admin_article_new') }}"><i class="fa fa-pencil"></i>Créer</a></li>
+                                    <li>
+                                        <a href="{{ path('admin_article_index') }}"><i class="fa fa-list"></i>Liste</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('admin_article_new') }}"><i class="fa fa-pencil"></i>Créer</a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="active">
                                 <label class="tree-toggler nav-header">Commentaires</label>
                                 <ul class="nav nav-list tree">
-                                    <li><a href="{{ path('admin_comment_index') }}"><i class="fa fa-list"></i>Liste</a></li>
+                                    <li>
+                                        <a href="{{ path('admin_comment_index') }}"><i class="fa fa-list"></i>Liste</a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="active">
                                 <label class="tree-toggler nav-header">Utilisateurs</label>
                                 <ul class="nav nav-list tree">
-                                    <li><a href="{{ path('admin_user_index') }}"><i class="fa fa-list"></i>Liste</a></li>
+                                    <li>
+                                        <a href="{{ path('admin_user_index') }}"><i class="fa fa-list"></i>Liste</a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="active">
                                 <label class="tree-toggler nav-header">Catégories</label>
                                 <ul class="nav nav-list tree">
-                                    <li><a href="{{ path('admin_category_index') }}"><i class="fa fa-list"></i>Liste</a></li>
-                                    <li><a href="{{ path('admin_category_new') }}"><i class="fa fa-pencil"></i>Créer</a></li>
+                                    <li>
+                                        <a href="{{ path('admin_category_index') }}"><i class="fa fa-list"></i>Liste</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('admin_category_new') }}"><i class="fa fa-pencil"></i>Créer</a>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>
                     </div>
                 </div>
-                {% block bodyApp %} {% endblock %}
+                @RenderBody()
             </div>
         </div>
     </div>
-{% endblock %}
+</div>
 
-{% block javascripts %}
-    {{ parent() }}
-{% endblock %}
+<partial name="Footer"/>
+<partial name="Scripts"/>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

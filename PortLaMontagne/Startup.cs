@@ -1,6 +1,7 @@
 using AspNetCore.ReCaptcha;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PortLaMontagne.Data;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +31,9 @@ namespace PortLaMontagne
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+                
             services.AddControllersWithViews();
 
             services.AddRazorPages().AddRazorRuntimeCompilation();

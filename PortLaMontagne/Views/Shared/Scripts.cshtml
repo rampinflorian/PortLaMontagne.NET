@@ -1,0 +1,152 @@
+<!-- Vendor -->
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/vendor/jquery/jquery.js"></script>
+<script src="~/vendor/jquery/jquery.nav.js"></script>
+<script src="~/vendor/jquery/jquery.validate.js"></script>
+<script src="~/vendor/jquery.appear/jquery.appear.min.js"></script>
+<script src="~/vendor/jquery.easing/jquery.easing.min.js"></script>
+<script src="~/vendor/jquery-cookie/jquery-cookie.min.js"></script>
+<script src="~/vendor/magnific-popup/jquery.magnific-popup.js"></script>
+<script src="~/vendor/modernizr/modernizr.min.js"></script>
+<script src="~/vendor/tether/tether.min.js"></script>
+<script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/vendor/menuzord/menuzord.js"></script>
+<script src="~/vendor/sticky/jquery.sticky.min.js"></script>
+<script src="~/vendor/isotope/jquery.isotope.min.js"></script>
+<script src="~/vendor/respond/respond.js"></script>
+<script src="~/vendor/images-loaded/imagesloaded.js"></script>
+<script src="~/vendor/owl-carousel/owl.carousel.js"></script>
+<script src="~/vendor/wow/wow.min.js"></script>
+<script src="~/vendor/lite-tooltip/js/litetooltip.js"></script>
+<script src="~/vendor/smoothscroll/smooth.scroll.min.js"></script>
+<script src="~/js/theme-plugins.js"></script>
+<!-- Current Page Vendor and Views -->
+<script src="~/vendor/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
+<script src="~/vendor/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+<!-- Theme Initialization -->
+<script src="~/js/theme.js"></script>
+<!-- Custom JS -->
+<script src="~/js/custom.js"></script>
+<script type="text/javascript" id="cookieinfo"
+        src="//cookieinfoscript.com/js/cookieinfo.min.js"
+        data-bg="#645862"
+        data-fg="#FFFFFF"
+        data-link="#f19500"
+        data-divlinkbg="#f19500"
+        data-cookie="CookieInfoScript"
+        data-text-align="left"
+        data-message="Nous utilisons des cookies pour améliorer ton expérience. En poursuivant la navigation sur ce site, tu acceptes l'utilisation des cookies."
+        data-linkmsg="Plus d'infos"
+        data-moreinfo="https://portlamontagne.fr/privacy-policy"
+        data-close-text="J'accepte!">
+    </script>
+
+
+<script>
+        $(document).ready(function () {
+            // $.ajax('{{ path('default_alerts', {
+            //     success: function (data) {
+            //         if (data['alerts'] > 0) {
+            //             document.getElementById('alerts-counter').appendChild(document.createTextNode(data['alerts']));
+            //             document.getElementById('alerts-li').style.display = "block";
+            //         }
+            //     },
+            //     error: function () {
+            //         // show alert or something
+            //     }
+            // });
+
+            
+            $.ajax('@Url.Action("WeatherMap", "Layout", null, Context.Request.Scheme)', {
+                success: function (arrayValues) {
+
+                    var data = JSON.parse(arrayValues);
+
+                    console.log(data);
+                    const url = "https://openweathermap.org/img/wn/" + data['weather'][0]['icon'] + "@@2x.png";
+                    const temp = Math.round(data['main']['temp'] - 273.15,);
+
+                    document.getElementById('weather-img-id').src = url;
+                    document.getElementById('weather-link-id').textContent = temp + '°C';
+                    console.log(url)
+                },
+                error: function () {
+                    // show alert or something
+                }
+            });
+
+
+            return false; // this stops normal button behaviour from executing;
+
+
+        })
+    </script>
+
+@* <!-- Toastr script --> *@
+@* <script src="~/js/plugins/toastr/toastr.min.js"></script> *@
+@* <script> *@
+@*     //Attempt to get the element using document.getElementById *@
+@*     var elementSuccess = document.getElementById("toast-success"); *@
+@*     var elementError = document.getElementById("toast-error"); *@
+@*     var elementWarning = document.getElementById("toast-warning"); *@
+@*     var element = null; *@
+@*     var error = false; *@
+@*     var warning = false; *@
+@*     var success = false; *@
+@* *@
+@*     if (elementError) { *@
+@*         element = elementError; *@
+@*         error = true; *@
+@*     } else if (elementSuccess) { *@
+@*         element = elementSuccess; *@
+@*         success = true; *@
+@*     } else { *@
+@*         element = elementWarning; *@
+@*         warning = true; *@
+@*     } *@
+@*     if (typeof (element) != 'undefined' && element != null) { *@
+@*         var i = -1; *@
+@*         var $toastlast; *@
+@*         var message = element.dataset.message; *@
+@*         var array = message.split(";"); *@
+@* *@
+@*         toastr.options = { *@
+@*             "progressBar": true, *@
+@*             "preventDuplicates": true, *@
+@*             "timeOut": "3000" *@
+@*         } *@
+@* *@
+@*         if (error) { *@
+@*             toastr.error(array[1], array[0]) *@
+@*         } else if (success) { *@
+@*             toastr.success(array[1], array[0]) *@
+@*         } else if (warning) { *@
+@*             toastr.warning(array[1], array[0]) *@
+@*         } *@
+@*     } *@
+@* *@
+@*     // function uploadImage(image) { *@
+@*     //     var data = new FormData(); *@
+@*     //     data.append("image", image); *@
+@*     //     $.ajax({ *@
+@*     //         data: data, *@
+@*     //         type: "POST", *@
+@*     //         url: "{{ path('admin_article_uploadimage", *@
+@*     //         cache: false, *@
+@*     //         contentType: false, *@
+@*     //         processData: false, *@
+@*     // *@
+@*     //         success: function (url) { *@
+@*     //             var origine = location.origin + '~/article/content/' + url.filename; *@
+@*     //             console.log(origine) *@
+@*     //             $('.summernote').summernote('insertImage', origine, function ($image) { *@
+@*     //                 $image.css('width', $image.width() / 3); *@
+@*     //             }); *@
+@*     //         }, *@
+@*     //         error: function (data) { *@
+@*     //             console.log(data); *@
+@*     //         } *@
+@*     //     }); *@
+@*     // } *@
+@* *@
+@* </script> *@

@@ -1,0 +1,118 @@
+<header id="header" class="header-narrow header-full-width"
+        data-plugin-options="{'stickyEnabled': true, 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': true, 'stickyStartAt': 0, 'stickySetTop': '0', 'stickyChangeLogo': false}">
+    <div class="header-body">
+        <div class="header-top dark-topbar">
+            <div class="container">
+                <div class="header-row py-1">
+                    <div class="header-column justify-content-start">
+                        <div class="header-row">
+                            <p>
+                                <a href="https://www.risque-prevention-incendie.fr/var/">
+                                    <i class="fa fa-info-circle mr-1 va-text-top"></i>
+                                    Carte des massifs
+                                </a>
+                                &nbsp;&nbsp;|&nbsp;&nbsp;
+                                <img width="22" height="22" src="~/img/spinner-loading.gif" alt="" id="weather-img-id">
+                                <a id="weather-link-id" href="https://www.meteoblue.com/fr/meteo/semaine/toulon_france_2972328">
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="header-column justify-content-end">
+                        <div class="header-row">
+                            <nav class="header-nav-top">
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item d-none d-lg-block">
+                                        <a asp-controller="Contact" class="nav-link"><i class="fa fa-angle-right"></i> Contactez-nous</a>
+                                    </li>
+                                    <partial name="_LoginPartial"/>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <span class="v-header-shadow"></span>
+        <div class="header-container container">
+            <div class="header-row">
+                <div class="header-column">
+                    <div class="header-row">
+                        <div class="header-logo">
+                            <a asp-controller="Home" asp-action="Index">
+                                <img alt="Vertex" width="106" height="69" src="~/img/logo.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-column justify-content-center">
+                    <div class="header-row">
+                        <div class="header-nav header-nav-dark-dropdown header-nav-top-line justify-content-center">
+                            <div class="header-nav-main header-nav-main-effect-2 header-nav-main-sub-effect-1">
+                                <nav class="collapse">
+                                    <ul class="nav nav-pills" id="mainNav">
+                                        <li class="dropdown">
+                                            <a class="dropdown-item dropdown-toggle active" asp-controller="Home" asp-action="Index" asp-area="">Accueil</a>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a class="dropdown-item dropdown-toggle" asp-controller="Article" asp-action="Index">Articles</a>
+                                        </li>
+                                        <li id='alerts-li' style="display:none;" class="dropdown header-search-wrap">
+                                            <a class="dropdown-item dropdown-toggle pr-5" href="">
+                                                <i
+                                                    class="fa fa-exclamation-triangle fs-18">
+                                                </i>&nbsp;Alertes
+                                                &nbsp;<span id='alerts-counter' class="badge badge-pill badge-danger"></span>
+                                            </a>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a class="dropdown-item dropdown-toggle" href="#">Market&nbsp;<span class="label label-primary pull-right">BETA</span></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <button class="btn header-btn-collapse-nav" data-toggle="collapse" data-target=".header-nav-main nav">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-column justify-content-end">
+                    <div class="header-row">
+                        <div class="header-nav header-nav-top-line justify-content-end">
+                            <div class="header-nav-main header-nav-main-effect-2 header-nav-main-sub-effect-1">
+                                <nav class="collapse">
+
+                                </nav>
+
+                            </div>
+                            <ul class="header-social-icons social-icons d-none d-sm-block">
+                                <li class="social-icons-facebook">
+                                    <a href="https://www.facebook.com/groups/portlamontagne/" target="_blank" title="Facebook">
+                                        <i
+                                            class="fa fa-facebook">
+                                        </i>
+                                    </a>
+                                </li>
+                                <li class="social-icons-twitter">
+                                    <a href="https://twitter.com/PLMToulon" target="_blank" title="Twitter">
+                                        <i
+                                            class="fa fa-twitter">
+                                        </i>
+                                    </a>
+                                </li>
+                                <li class="social-icons-instagram">
+                                    <a href="https://www.instagram.com/Port_la_montagne/" target="_blank" title="Instagram">
+                                        <i
+                                            class="fa fa-instagram">
+                                        </i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
