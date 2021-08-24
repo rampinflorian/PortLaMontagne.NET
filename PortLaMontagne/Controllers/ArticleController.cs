@@ -121,7 +121,7 @@ namespace PortLaMontagne.Controllers
                 return NotFound();
             }
             
-            comment.Article = article;;
+            comment.Article = article;
             comment.ApplicationUser = currentUser;
             comment.CreatedAt = DateTime.Now;
 

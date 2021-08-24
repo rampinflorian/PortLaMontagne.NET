@@ -7,13 +7,6 @@ namespace PortLaMontagne.Controllers
 {
     public class LayoutController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public LayoutController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
         public async Task<IActionResult> WeatherMap()
         {
             var owm = new OpenWeatherMapAPI();

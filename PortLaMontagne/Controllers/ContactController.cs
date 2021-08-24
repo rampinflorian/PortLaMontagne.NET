@@ -6,8 +6,6 @@ using AspNetCore.ReCaptcha;
 using Core.Flash;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Extensions.Logging;
-using PortLaMontagne.Data;
 using PortLaMontagne.Forms;
 using PortLaMontagne.Models;
 using PortLaMontagne.Services;
@@ -16,16 +14,11 @@ namespace PortLaMontagne.Controllers
 {
     public class ContactController : Controller
     {
-        private readonly ILogger<ContactController> _logger;
-        private readonly ApplicationDbContext _dbContext;
         private readonly IFlasher _flasher;
         private readonly MailerService _mailerService;
 
-        public ContactController(ILogger<ContactController> logger, ApplicationDbContext dbContext, IFlasher flasher,
-            MailerService mailerService)
+        public ContactController(IFlasher flasher, MailerService mailerService)
         {
-            _logger = logger;
-            _dbContext = dbContext;
             _flasher = flasher;
             _mailerService = mailerService;
         }
@@ -67,7 +60,7 @@ namespace PortLaMontagne.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
