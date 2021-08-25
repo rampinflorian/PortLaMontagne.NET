@@ -22,7 +22,12 @@
                     <i class="fa fa-link"></i>&nbsp;&nbsp;Administration
                 </a>
             }
-            <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout"> <i class="fa fa-power-off"></i>&nbsp;&nbsp;Déconnexion</a>
+            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/" method="post" id="logoutForm">
+                <div onclick="submit_form()">
+                    <a class="dropdown-item" href="#"> <i class="fa fa-power-off"></i>&nbsp;&nbsp;Déconnexion</a>
+                </div>
+            </form>
+
 
         </div>
     </li>
