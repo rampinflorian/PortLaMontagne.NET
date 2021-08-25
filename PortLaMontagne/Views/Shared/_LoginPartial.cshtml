@@ -8,20 +8,31 @@
 }
 
 @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item d-none d-lg-block">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Salut @currentUser.FirstName !</a>
-        </li>
-        <li class="nav-item d-none d-lg-block">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Logout">Déconnexion</a>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item d-none d-lg-block">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">S'inscrire</a>
-        </li>
-        <li class="nav-item d-none d-lg-block">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Connexion</a>
-        </li>
-    }
+{
+    <li class="nav-item dropdown">
+        <a class="nav-link" href="#" role="button" id="dropdownLanguage" data-toggle="dropdown" aria-haspopup="true"
+           aria-expanded="false">
+            <i class="fa fa-user"></i> Salut @currentUser.FirstName !&nbsp;&nbsp;<i class="fa fa-angle-down"></i>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownLanguage">
+            <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index"> <i class="fa fa-user"></i>&nbsp;&nbsp;Mon compte</a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a class="dropdown-item" asp-controller="Home" asp-action="Index" asp-area="Admin">
+                    <i class="fa fa-link"></i>&nbsp;&nbsp;Administration
+                </a>
+            }
+            <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout"> <i class="fa fa-power-off"></i>&nbsp;&nbsp;Déconnexion</a>
+
+        </div>
+    </li>
+}
+else
+{
+    <li class="nav-item d-none d-lg-block">
+        <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">S'inscrire</a>
+    </li>
+    <li class="nav-item d-none d-lg-block">
+        <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Connexion</a>
+    </li>
+}
