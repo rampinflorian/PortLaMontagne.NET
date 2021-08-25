@@ -5,10 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using PortLaMontagne.Data;
 using PortLaMontagne.Models;
-using PortLaMontagne.Services;
 
 namespace PortLaMontagne.Controllers
 {
@@ -16,18 +14,11 @@ namespace PortLaMontagne.Controllers
     public class ArticleController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _manager;
-        private readonly UploadFile _uploadFile;
-        private readonly IConfiguration _configuration;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ArticleController(ApplicationDbContext context, UserManager<ApplicationUser> manager,
-            UploadFile uploadFile, IConfiguration configuration, UserManager<ApplicationUser> userManager)
+        public ArticleController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
-            _manager = manager;
-            _uploadFile = uploadFile;
-            _configuration = configuration;
             _userManager = userManager;
         }
 
@@ -63,34 +54,6 @@ namespace PortLaMontagne.Controllers
             {
                 Article = article
             });
-        }
-
-        [Authorize]
-        [Route("create", Name = "article.create")]
-        public IActionResult Create()
-        {
-            return View(new Article());
-        }
-
-        [Authorize]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route("create", Name = "article.create")]
-        public async Task<IActionResult> Create(
-            [Bind("Title, Content, IsPublished, Category, FormFile")]
-            Article article)
-        {
-            if (!ModelState.IsValid) return View();
-
-            article.Image = await _uploadFile.UploadFormFile(article.FormFile,
-                _configuration.GetSection("defaultPath").GetSection("ImageArticle").Value);
-            article.CreatedAt = DateTime.Now;
-            article.Editor = await _manager.GetUserAsync(HttpContext.User);
-
-            _context.Add(article);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction(nameof(Index));
         }
 
         [Authorize]
@@ -134,7 +97,7 @@ namespace PortLaMontagne.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("{slug}/comment/delete")]
+        [Route("{slug}/comment/delete", Name = "article.comment.delete")]
         public async Task<IActionResult> CommentDelete(string slug, int commentId)
         {
             var comment = await _context.Comments.FirstOrDefaultAsync(m => m.CommentId == commentId);
@@ -152,7 +115,7 @@ namespace PortLaMontagne.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("{slug}/newsletter/update")]
+        [Route("{slug}/newsletter/update", Name = "article.newsletter.updatestatus")]
         public async Task<IActionResult> UpdateNewsletterStatus(string slug)
         {
             var applicationUser = await _userManager.GetUserAsync(HttpContext.User);

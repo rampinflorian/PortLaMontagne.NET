@@ -38,7 +38,11 @@
         </div>
     </div>
     <h1 class="fs-30 pt-20 text-center">@ViewBag.Article.Title</h1>
-    @ViewBag.Article.Content
+    <div class="nl2br">
+        @Html.Raw(ViewBag.Article.Content)
+    </div>
+
+
     <div class="blog-single-meta">
         <div class="post-meta-section clearfix mb-none">
             <div class="tag-cloud clearfix">
@@ -125,33 +129,33 @@
             </div>
 
 
-                @if (comments.All(m => m.ApplicationUser != currentUser))
-                {
-                    <div class="post-block post-leave-comment">
-                        <form asp-action="Comment" asp-route-slug="@ViewBag.Article.Slug">
-                            @Html.AntiForgeryToken()
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (comments.All(m => m.ApplicationUser != currentUser))
+            {
+                <div class="post-block post-leave-comment">
+                    <form asp-action="Comment" asp-route-slug="@ViewBag.Article.Slug">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <span asp-validation-for="@Model.Content" class="text-danger"></span>
-                                        <textarea asp-for="@Model.Content" class="form-control" maxlength="2000" rows="9" placeholder="Inscris ton message..."></textarea>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="form-group">
                             <div class="row">
-                                <div class="col-md-12 pt-md">
-                                    <input type="submit" value="COMMENTER" class="btn btn-primary" data-loading-text="Chargement...">
+                                <div class="col-md-12">
+                                    <span asp-validation-for="@Model.Content" class="text-danger"></span>
+                                    <textarea asp-for="@Model.Content" class="form-control" maxlength="2000" rows="9" placeholder="Inscris ton message..."></textarea>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                }
-                else
-                {
-                    <i>Hé..psstt ! Tu as déjà commenté cet article !</i>
-                }
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 pt-md">
+                                <input type="submit" value="COMMENTER" class="btn btn-primary" data-loading-text="Chargement...">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <i>Hé..psstt ! Tu as déjà commenté cet article !</i>
+            }
 
 
         </div>

@@ -1,0 +1,71 @@
+@model Article
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Articles";
+
+}
+
+@section Styles {
+    <link href="~/css/blog.css" rel="stylesheet"/>
+    <link href="~/css/ss-gizmo.css" rel="stylesheet"/>
+}
+
+<div class="col-md-9">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="xspecial-heading v2">
+                    <span>Liste des articles</span>
+                </h3>
+            </div>
+            <div class="col-md-12">
+                <table class="table table-striped custab">
+                    <thead>
+                    <tr>
+                        <th>Date création</th>
+                        <th>Titre</th>
+                        <th>Est une alerte ?</th>
+                        <th>publié</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                    </thead>
+                    @foreach (Article article in ViewBag.Articles)
+                    {
+                        <tr>
+                            <td>@article.CreatedAt.ToString("d")</td>
+                            <td>
+                                <a asp-controller="Article" asp-action="Details" asp-route-slug="@article.Slug"> @article.Title </a>
+                            </td>
+                            <td>
+                                @* {% if article.alert %} *@
+                                @* <span class="label label-danger">OUI</span> *@
+                                @* {% endif %} *@
+                            </td>
+                            <td>
+                                @if (article.IsPublished)
+                                {
+                                    <span class="label label-success">OUI</span>    
+                                }
+                            </td>
+                            <td>
+                                <a class='btn btn-info btn-xs' asp-controller="Article" asp-action="Edit" asp-area="Admin" asp-route-slug="@article.Slug"><span class="glyphicon glyphicon-edit"></span> éditer</a>
+                                
+                                <form asp-action="Delete" onsubmit="return confirm('Voulez-vous vraiment supprimer cet article ?');">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" asp-for="ArticleId" value="@article.ArticleId"/>
+                                    <button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> suppr</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+        $('.masonary-post-wrap').isotope({
+            itemSelector: '.masonary-post-item',
+            percentPosition: true
+        })
+    </script>

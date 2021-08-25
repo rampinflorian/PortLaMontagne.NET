@@ -14,6 +14,7 @@ namespace PortLaMontagne.Models
         private string _title;
 
         [Required(ErrorMessage = "Le titre est obligatoire")]
+        [Display(Name = "Titre")]
         public string Title
         {
             get => _title;
@@ -27,15 +28,18 @@ namespace PortLaMontagne.Models
         [Required(ErrorMessage = "Le contenu est obligatoire")]
         [Display(Name = "Contenu de l'article")]
         public string Content { get; set; }
-
+        
         public DateTime CreatedAt { get; set; }
         public ApplicationUser Editor { get; set; }
         
         public string Image { set;get; }
         [NotMapped]
+        [Display(Name = "Image")]
         public IFormFile FormFile { set; get; }
+        [Display(Name = "Publier l'article")]
         public bool IsPublished { get; set; }
         public ICollection<Comment> Comments { get; set; }
+        [Display(Name = "Catégorie")]
         public CategoryEnum Category { get; set; }
 
         private string _slug;

@@ -33,7 +33,7 @@
                                 <label class="tree-toggler nav-header">Administration</label>
                                 <ul class="nav nav-list tree">
                                     <li>
-                                        <a href="{{ path('admin_dashboard_index') }}"><i class="fa fa-dashboard"></i>Tableau de bord</a>
+                                        <a asp-controller="Home" asp-action="Index" asp-area="Admin"><i class="fa fa-dashboard"></i>Tableau de bord</a>
                                     </li>
                                 </ul>
                             </li>
@@ -41,10 +41,10 @@
                                 <label class="tree-toggler nav-header">Articles</label>
                                 <ul class="nav nav-list tree">
                                     <li>
-                                        <a href="{{ path('admin_article_index') }}"><i class="fa fa-list"></i>Liste</a>
+                                        <a asp-controller="Article" asp-action="Index" asp-area="Admin"><i class="fa fa-list"></i>Liste</a>
                                     </li>
                                     <li>
-                                        <a href="{{ path('admin_article_new') }}"><i class="fa fa-pencil"></i>Créer</a>
+                                        <a asp-controller="Article" asp-action="Create" asp-area="Admin"><i class="fa fa-pencil"></i>Créer</a>
                                     </li>
                                 </ul>
                             </li>

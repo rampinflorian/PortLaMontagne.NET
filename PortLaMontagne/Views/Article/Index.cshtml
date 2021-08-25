@@ -40,12 +40,12 @@
                                         </div>
                                         <div itemprop="articleBody">
                                             <p>
-                                                @article.Content.Substring(0, Math.Min(article.Content.Length, 200))
+                                                @Html.Raw(article.Content.Substring(0, Math.Min(article.Content.Length, 200)))
                                             </p>
                                             <hr/>
                                             <p class="v_blog-item-author">
                                                 <a href="#">
-                                                    <img alt="" src="">
+                                                    <img alt="" src="~/img/user/@article.Editor.Image" class="avatar photo">
                                                     <span>@article.Editor.FullName()</span>
                                                 </a>
                                             </p>

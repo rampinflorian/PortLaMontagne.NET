@@ -7,16 +7,16 @@ using Slugify;
 
 namespace PortLaMontagne.Services
 {
-    public class UploadFile
+    public class WwwRootService
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public UploadFile(IWebHostEnvironment webHostEnvironment)
+        public WwwRootService(IWebHostEnvironment webHostEnvironment)
         {
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<string> UploadFormFile(IFormFile formFile, string path)
+        public async Task<string> UploadFormFile(IFormFile formFile, string path, string previousFileName = null)
         {
             var uniqueFileName = GetUniqueFileName(formFile.FileName);
             var uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, path);
@@ -27,7 +27,27 @@ namespace PortLaMontagne.Services
 
             await formFile.CopyToAsync(new FileStream(filePath, FileMode.Create));
 
+            if (previousFileName is not null)
+            {
+                DeleteFile(Path.Combine( uploadPath, previousFileName));
+            }
+
             return uniqueFileName;
+        }
+
+        public void DeleteFile(string path)
+        {
+            var fullPath = Path.Combine(_webHostEnvironment.WebRootPath, path);
+            if (File.Exists(fullPath))
+            {
+                try
+                {
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                    File.Delete(fullPath);
+                }
+                catch (Exception e) { }
+            }
         }
 
         private static string GetUniqueFileName(string fullFileName)

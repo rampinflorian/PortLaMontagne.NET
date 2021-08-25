@@ -62,13 +62,11 @@
 
                     var data = JSON.parse(arrayValues);
 
-                    console.log(data);
                     const url = "https://openweathermap.org/img/wn/" + data['weather'][0]['icon'] + "@@2x.png";
                     const temp = Math.round(data['main']['temp'] - 273.15,);
 
                     document.getElementById('weather-img-id').src = url;
                     document.getElementById('weather-link-id').textContent = temp + '°C';
-                    console.log(url)
                 },
                 error: function () {
                     // show alert or something

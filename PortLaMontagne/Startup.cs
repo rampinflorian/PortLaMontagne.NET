@@ -48,7 +48,7 @@ namespace PortLaMontagne
             //SERVICES 
             services.AddTransient<MailerService>();
             services.AddTransient<MimeMessage>();
-            services.AddTransient<UploadFile>();
+            services.AddTransient<WwwRootService>();
 
 
 
