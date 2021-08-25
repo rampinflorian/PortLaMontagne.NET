@@ -1,0 +1,47 @@
+@model Comment
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Commentaires";
+
+}
+
+<div class="col-md-9">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="xspecial-heading v2">
+                    <span>Liste des commentaires</span>
+                </h3>
+            </div>
+            <div class="col-md-12">
+                <table class="table table-striped custab">
+                    <thead>
+                    <tr>
+                        <th>Article</th>
+                        <th>Utilisateur</th>
+                        <th>Créé le</th>
+                        <th>Commentaire</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    @foreach (Comment comment in ViewBag.Comments)
+                    {
+                        <tr>
+                            <td>@comment.Article.Title</td>
+                            <td>@comment.ApplicationUser.FullName()</td>
+                            <td>@comment.CreatedAt.ToString("g")</td>
+                            <td>@Html.Raw(comment.Content.Substring(0, Math.Min(comment.Content.Length, 50)))</td>
+                            <td>
+                                <form asp-action="Delete" onsubmit="return confirm('Voulez-vous vraiment supprimer ce commentaire ?');">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" asp-for="CommentId" value="@comment.CommentId"/>
+                                    <button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> suppr</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

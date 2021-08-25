@@ -13,7 +13,7 @@ using PortLaMontagne.Services;
 
 namespace PortLaMontagne.Areas.Admin.Controllers
 {
-    [Area("admin")]
+    [Area("Admin")]
     [Authorize(Roles = "Admin")]
     [Route("admin/articles")]
     public class ArticleController : Controller

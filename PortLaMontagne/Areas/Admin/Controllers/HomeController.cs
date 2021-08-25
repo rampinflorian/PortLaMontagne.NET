@@ -6,7 +6,7 @@ using PortLaMontagne.Data;
 
 namespace PortLaMontagne.Areas.Admin.Controllers
 {
-    [Area("admin")]
+    [Area("Admin")]
     [Authorize(Roles = "Admin")]
     [Route("admin")]
     public class HomeController : Controller
