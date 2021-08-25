@@ -1,0 +1,42 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Utilisateurs";
+}
+
+<div class="col-md-9">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="xspecial-heading v2">
+                    <span>Liste des utilisateurs</span>
+                </h3>
+            </div>
+            <div class="col-md-12">
+                <table class="table table-striped custab">
+                    <thead>
+                    <tr>
+                        <th>Prénom/Nom</th>
+                        <th>Email</th>
+                        <th>Vérifié</th>
+                        <th>Créé le</th>
+                    </tr>
+                    </thead>
+                    <tr>
+                        @foreach (ApplicationUser user in ViewBag.Users)
+                        {
+                            <td>@user.FullName()</td>
+                            <td>@user.Email</td>
+                            <td>
+                                @if (user.EmailConfirmed)
+                                {
+                                    <span class="label label-success">OUI</span>
+                                }
+                            </td>
+                    <td>@user.CreatedAt.ToString("g")</td>
+                        }
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

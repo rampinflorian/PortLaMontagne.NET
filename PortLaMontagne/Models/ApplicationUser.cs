@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System;
+using Microsoft.AspNetCore.Identity;
 
 namespace PortLaMontagne.Models
 {
@@ -12,6 +13,8 @@ namespace PortLaMontagne.Models
         public string FirstName { get; set; } 
         public string LastName { get; set; }
         public bool IsNewsletter { get; set; } = false;
+
+        public DateTime CreatedAt { get; set; }
 
         public string FullName()
         {
