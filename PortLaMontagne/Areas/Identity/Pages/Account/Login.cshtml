@@ -2,84 +2,135 @@
 @model LoginModel
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = "Connexion";
 }
+<!-- Current Page CSS -->
+<link href="~/smartforms/Templates/css/smart-forms.css" rel="stylesheet"/>
+<div class="page body-sign">
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-4">
-        <section>
-            <form id="account" method="post">
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Input.Email"></label>
-                    <input asp-for="Input.Email" class="form-control" />
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control" />
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label asp-for="Input.RememberMe">
-                            <input asp-for="Input.RememberMe" />
-                            @Html.DisplayNameFor(m => m.Input.RememberMe)
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Log in</button>
-                </div>
-                <div class="form-group">
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                    </p>
-                    <p>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                    </p>
-                </div>
-            </form>
-        </section>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use another service to log in.</h4>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
+    <div class="page-inner p-none no-border">
+
+        <section class="section-big">
+
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-md-6 offset-md-3">
+
+                        <div class="smart-wrap">
+                            <div class="smart-forms smart-container wrap-3">
+                                <form id="account" method="post">
+                                    <div class="form-body">
+                                        <div asp-validation-summary="All"></div>
+                                        <div class="spacer-b30">
+                                            <div class="tagline">
+                                                <span> inscris-toi </span>
+                                            </div><!-- .tagline -->
+                                        </div>
+
+                                        <div class="section text-center">
+                                            <a a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="btn btn-primary">
+                                                <span>
+                                                    <i class="fa fa-sign-in"></i>
+                                                </span> S'inscrire
+                                            </a>
+
+                                        </div><!-- end section -->
+
+                                        <div class="spacer-t30 spacer-b30">
+                                            <div class="tagline">
+                                                <span> Ou connecte-toi </span>
+                                            </div><!-- .tagline -->
+                                        </div>
+
+                                        <div class="section">
+                                            <label class="field prepend-icon">
+                                                <input asp-for="Input.Email" class="form-control gui-input" autofocus/>
+                                                <span class="field-icon">
+                                                    <i class="fa fa-user"></i>
+                                                </span>
+                                            </label>
+                                        </div>
+
+                                        <div class="section">
+                                            <label class="field prepend-icon">
+                                                <input asp-for="Input.Password" class="form-control gui-input" autofocus/>
+                                                <span class="field-icon">
+                                                    <i class="fa fa-user"></i>
+                                                </span>
+                                            </label>
+                                        </div>
+
+                                        <div class="section">
+                                            <div class="switch block">
+                                                <label class="switch block">
+                                                    <input asp-for="Input.RememberMe" class="form-control gui-input" checked/>
+                                                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                                    <span class="switch-label" for="remember" data-on="OUI" data-off="NON"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+
+                                        <p>
+                                            <a id="forgot-password" asp-page="./ForgotPassword">Mot de passe oublié ?</a>
+                                        </p>
+                                    </div><!-- end .form-body section -->
+                                    <div class="form-footer">
+                                        <button type="submit" class="button btn-primary">CONNEXION</button>
+                                    </div><!-- end .form-footer section -->
+
+                                </form>
+
+                            </div><!-- end .smart-forms section -->
                         </div>
-                    </form>
-                }
-            }
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-primary main-color">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="feature-box left-icon-v2 exp-animation" data-animation="right-to-left" data-delay="200">
+                            <i class="fa fa-cogs v-icon icn-holder medium"></i>
+                            <div class="feature-box-text">
+                                <h3>Découvrir</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="feature-box left-icon-v2 exp-animation" data-animation="right-to-left" data-delay="400">
+                            <i class="fa fa-compress v-icon icn-holder medium"></i>
+                            <div class="feature-box-text">
+                                <h3>Rechercher</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="feature-box left-icon-v2 exp-animation" data-animation="right-to-left" data-delay="600">
+                            <i class="fa fa-fire v-icon icn-holder medium"></i>
+                            <div class="feature-box-text">
+                                <h3>Alerter</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="feature-box left-icon-v2 exp-animation" data-animation="right-to-left" data-delay="800">
+                            <i class="fa fa-comments-o v-icon icn-holder medium"></i>
+                            <div class="feature-box-text">
+                                <h3>Partager</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
 </div>
 
+
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial"/>
 }

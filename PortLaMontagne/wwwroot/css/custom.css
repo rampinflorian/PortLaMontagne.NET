@@ -233,3 +233,8 @@
     text-overflow: ellipsis;
     word-wrap: break-word;
 }
+
+.section-big {
+    background-image: url("../img/login/login.JPG");
+    background-size:cover;
+}

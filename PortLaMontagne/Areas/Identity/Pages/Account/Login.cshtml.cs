@@ -45,13 +45,15 @@ namespace PortLaMontagne.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
+            [Display(Prompt = "Email")]
             public string Email { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
+            [Display(Prompt = "Mot de passe")]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Rester connecté ?")]
             public bool RememberMe { get; set; }
         }
 

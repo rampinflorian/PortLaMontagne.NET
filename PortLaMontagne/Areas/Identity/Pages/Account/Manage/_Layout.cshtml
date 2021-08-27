@@ -4,6 +4,7 @@
         Layout = (string)parentLayout;
     }
 }
+    <partial name="Head"/>
 
 <h2>Manage your account</h2>
 
@@ -19,7 +20,7 @@
         </div>
     </div>
 </div>
-
+<partial name="Scripts"/>
 @section Scripts {
     @RenderSection("Scripts", required: false)
 }
