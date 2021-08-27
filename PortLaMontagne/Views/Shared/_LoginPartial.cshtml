@@ -10,7 +10,7 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item dropdown">
-        <a class="nav-link" href="#" role="button" id="dropdownLanguage" data-toggle="dropdown" aria-haspopup="true"
+        <a class="nav-link" role="button" id="dropdownLanguage" data-toggle="dropdown" aria-haspopup="true"
            aria-expanded="false">
             <i class="fa fa-user"></i> Salut @currentUser.FirstName !&nbsp;&nbsp;<i class="fa fa-angle-down"></i>
         </a>
@@ -40,4 +40,15 @@ else
     <li class="nav-item d-none d-lg-block">
         <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Connexion</a>
     </li>
+}
+
+@section Scripts
+{
+    
+    <script>
+        function submit_form(){
+            var form = document.getElementById("logoutForm");
+            form.submit();
+        }
+    </script>
 }

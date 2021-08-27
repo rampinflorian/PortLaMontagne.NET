@@ -46,7 +46,10 @@ namespace PortLaMontagne.Services
                     GC.WaitForPendingFinalizers();
                     File.Delete(fullPath);
                 }
-                catch (Exception e) { }
+                catch (Exception e)
+                {
+                    throw new FileLoadException(e.Message);
+                }
             }
         }
 

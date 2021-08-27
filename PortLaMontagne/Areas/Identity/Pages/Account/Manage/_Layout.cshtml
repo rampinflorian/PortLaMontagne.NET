@@ -1,26 +1,38 @@
-﻿@{
-    if (ViewData.TryGetValue("ParentLayout", out var parentLayout))
-    {
-        Layout = (string)parentLayout;
-    }
-}
+﻿<!DOCTYPE html>
+<html>
+<head>
     <partial name="Head"/>
+    <title>
+        @ViewData["Title"]
+        @((string)ViewData["Title"] != "" ? "| " : " ")portlamontagne.fr | Ça grimpe autour de Toulon !
+    </title>
+    @await RenderSectionAsync("Styles", false)
 
-<h2>Manage your account</h2>
-
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
-            <partial name="Manage/_ManageNav" />
-        </div>
-        <div class="col-md-9">
-            @RenderBody()
+</head>
+<body>
+<!--Header-->
+<partial name="Headerbody"/>
+<!--End Header-->
+<div class="wrapper">
+    <div flashes></div>
+    <div>
+        <h4>Change your account settings</h4>
+        <hr/>
+        <div class="row">
+            <div class="col-md-3">
+                <partial name="Manage/_ManageNav"/>
+            </div>
+            <div class="col-md-9">
+                @RenderBody()
+            </div>
         </div>
     </div>
 </div>
+
+<partial name="Footer"/>
 <partial name="Scripts"/>
-@section Scripts {
-    @RenderSection("Scripts", required: false)
-}
+
+@await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>
