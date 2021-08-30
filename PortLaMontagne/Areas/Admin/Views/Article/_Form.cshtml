@@ -4,13 +4,14 @@
 
 <form asp-action="@((FormStatusEnum)ViewData["FormStatus"] == FormStatusEnum.Create ? "Create" : "Edit")" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    
+    @Html.AntiForgeryToken()
+
     @if ((FormStatusEnum)ViewData["FormStatus"] == FormStatusEnum.Edit)
     {
-        <input type="hidden" asp-for="Image" />
-
+        <input type="hidden" asp-for="Image"/>
+        <input type="hidden" asp-for="ArticleId"/>
     }
-    
+
     <div class="form-group">
         <label asp-for="Title"></label>
         <input asp-for="Title" class="gui-input">

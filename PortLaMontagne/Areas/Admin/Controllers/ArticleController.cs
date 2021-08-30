@@ -23,7 +23,8 @@ namespace PortLaMontagne.Areas.Admin.Controllers
         private readonly IConfiguration _configuration;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ArticleController(ApplicationDbContext context, WwwRootService wwwRootService, IConfiguration configuration,
+        public ArticleController(ApplicationDbContext context, WwwRootService wwwRootService,
+            IConfiguration configuration,
             UserManager<ApplicationUser> userManager)
         {
             _context = context;
@@ -82,57 +83,49 @@ namespace PortLaMontagne.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("edit/{slug}", Name = "admin.article.edit")]
-        public async Task<IActionResult> EditPost(string slug)
+        [Route("edit/{slug}", Name = "admin.article.edit.post")]
+        public async Task<IActionResult> Edit(string slug, int articleId, [Bind("ArticleId, Title, Content, IsPublished, Category, FormFile, Image")] Article article)
         {
-            if (slug is null)
+            if (articleId != article.ArticleId)
             {
                 return NotFound();
             }
 
-            var articleToUpdate = await _context.Articles.FirstOrDefaultAsync(m => m.Slug == slug);
-
-            if (await TryUpdateModelAsync(articleToUpdate, "",
-                m => m.Title,
-                m => m.Content,
-                m => m.IsPublished,
-                m => m.Category,
-                m => m.FormFile,
-                m => m.Image
-            ))
+            ModelState.Remove("Image");
+            if (!ModelState.IsValid)
             {
-                if (articleToUpdate.FormFile is not null)
-                {
-                    articleToUpdate.Image = await _wwwRootService.UploadFormFile(articleToUpdate.FormFile,
-                        _configuration.GetSection("defaultPath").GetSection("ImageArticle").Value,
-                        articleToUpdate.Image);
-                }
-
-
-                await _context.SaveChangesAsync();
+                return View(article);
             }
 
-            return RedirectToAction(nameof(Index));
-        }
+            article.Image = await _wwwRootService.UploadFormFile(article.FormFile,
+                _configuration.GetSection("defaultPath").GetSection("ImageArticle").Value,
+                article.Image);
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route("delete", Name = "admin.article.delete")]
-        public async Task<IActionResult> Delete(int articleId)
-        {
-            var article = await _context.Articles.Include(m => m.Comments)
-                .FirstOrDefaultAsync(m => m.ArticleId == articleId);
-
-            if (article is null)
-            {
-                return NotFound();
-            }
-
-            _wwwRootService.DeleteFile(Path.Combine(_configuration.GetSection("defaultPath").GetSection("ImageArticle").Value, article.Image));
-            _context.Remove(article);
+            _context.Update(article);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [Route("delete", Name = "admin.article.delete")]
+    public async Task<IActionResult> Delete(int articleId)
+    {
+    var article = await _context.Articles.Include(m => m.Comments)
+            .FirstOrDefaultAsync(m => m.ArticleId == articleId);
+        if (article is null)
+    {
+        return NotFound();
     }
+
+    _wwwRootService.DeleteFile(Path.Combine(_configuration.GetSection(
+        "defaultPath").GetSection("ImageArticle").Value, article.Image));
+    _context.Remove(article);
+
+    await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
+}
+
 }

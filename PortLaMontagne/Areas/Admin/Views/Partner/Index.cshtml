@@ -1,0 +1,47 @@
+@model Partner
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Partenaires";
+}
+
+<div class="col-md-9">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="xspecial-heading v2">
+                    <span>Liste des partenaires</span>
+                </h3>
+            </div>
+            <div class="col-md-12">
+                <table class="table table-striped custab">
+                    <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Url</th>
+                        <th>Image</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    @foreach (Partner partner in ViewBag.Partners)
+                    {
+                        <tr>
+                            <td>@partner.Name</td>
+                            <td>@partner.Website</td>
+                            <td>
+                                <img src="~/img/partner/@partner.Image" alt="@partner.Name" width="30">
+                            </td>
+                            <td>
+                                <a class='btn btn-info btn-xs' asp-controller="Partner" asp-action="Edit" asp-area="Admin" asp-route-partnerId="@partner.PartnerId"><span class="glyphicon glyphicon-edit"></span> éditer</a>
+                                <form asp-action="Delete" onsubmit="return confirm('Voulez-vous vraiment supprimer ce partenaire ?');">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" asp-for="PartnerId" value="@partner.PartnerId"/>
+                                    <button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> suppr</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

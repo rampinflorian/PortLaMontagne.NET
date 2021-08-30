@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <partial name="Head"/>
     <title>
@@ -61,6 +61,17 @@
                                 <ul class="nav nav-list tree">
                                     <li>
                                         <a asp-controller="User" asp-action="Index" asp-area="Admin"><i class="fa fa-list"></i>Liste</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="active">
+                                <label class="tree-toggler nav-header">Partenaires</label>
+                                <ul class="nav nav-list tree">
+                                    <li>
+                                        <a asp-controller="Partner" asp-action="Index" asp-area="Admin"><i class="fa fa-list"></i>Liste</a>
+                                    </li>
+                                    <li>
+                                        <a asp-controller="Partner" asp-action="Create" asp-area="Admin"><i class="fa fa-pencil"></i>Créer</a>
                                     </li>
                                 </ul>
                             </li>

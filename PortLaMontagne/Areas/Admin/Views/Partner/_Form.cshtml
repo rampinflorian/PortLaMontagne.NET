@@ -1,0 +1,36 @@
+@model Partner
+
+@using PortLaMontagne.Enums
+
+<form asp-action="@((FormStatusEnum)ViewData["FormStatus"] == FormStatusEnum.Create ? "Create" : "Edit")" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @Html.AntiForgeryToken()
+
+    @if ((FormStatusEnum)ViewData["FormStatus"] == FormStatusEnum.Edit)
+    {
+        <input type="hidden" asp-for="Image"/>
+        <input type="hidden" asp-for="PartnerId"/>
+        <img src="~/img/partner/@Model.Image" width="150" alt="@Model.Name">
+    }
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="gui-input">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Website"></label>
+        <input asp-for="Website" class="gui-textarea summernote">
+        <span asp-validation-for="Website" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="FormFile"></label>
+        <input asp-for="FormFile"/>
+        <span asp-validation-for="FormFile" class="text-danger"></span>
+
+    </div>
+    <div class="form-group">
+        <input type="submit" value="@((FormStatusEnum)ViewData["FormStatus"] == FormStatusEnum.Create ? "Créer" : "Editer")" class="btn btn-primary">
+    </div>
+
+</form>
