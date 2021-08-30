@@ -15,7 +15,7 @@
             <i class="fa fa-user"></i> Salut @currentUser.FirstName !&nbsp;&nbsp;<i class="fa fa-angle-down"></i>
         </a>
         <div class="dropdown-menu" aria-labelledby="dropdownLanguage">
-            <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index"> <i class="fa fa-user"></i>&nbsp;&nbsp;Mon compte</a>
+            <a class="dropdown-item" asp-controller="Home" asp-action="Index" asp-area="User"> <i class="fa fa-user"></i>&nbsp;&nbsp;Mon compte</a>
             @if (User.IsInRole("Admin"))
             {
                 <a class="dropdown-item" asp-controller="Home" asp-action="Index" asp-area="Admin">
@@ -40,15 +40,4 @@ else
     <li class="nav-item d-none d-lg-block">
         <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Connexion</a>
     </li>
-}
-
-@section Scripts
-{
-    
-    <script>
-        function submit_form(){
-            var form = document.getElementById("logoutForm");
-            form.submit();
-        }
-    </script>
 }

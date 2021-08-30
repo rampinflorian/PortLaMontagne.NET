@@ -21,9 +21,10 @@
                         <th>Créé le</th>
                     </tr>
                     </thead>
-                    <tr>
-                        @foreach (ApplicationUser user in ViewBag.Users)
-                        {
+                    @foreach (ApplicationUser user in ViewBag.Users)
+                    {
+                        <tr>
+
                             <td>@user.FullName()</td>
                             <td>@user.Email</td>
                             <td>
@@ -32,9 +33,9 @@
                                     <span class="label label-success">OUI</span>
                                 }
                             </td>
-                    <td>@user.CreatedAt.ToString("g")</td>
-                        }
-                    </tr>
+                            <td>@user.CreatedAt.ToString("g")</td>
+                        </tr>
+                    }
                 </table>
             </div>
         </div>

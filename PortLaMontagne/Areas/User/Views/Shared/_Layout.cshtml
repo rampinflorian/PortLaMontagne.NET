@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <partial name="Head"/>
+    <title>
+        @ViewData["Title"]
+        @((string)ViewData["Title"] != "" ? "| " : " ") Administration | portlamontagne.fr | Ça grimpe autour de Toulon !
+    </title>
+    @await RenderSectionAsync("Styles", false)
+</head>
+<body>
+<!--Header-->
+<partial name="Headerbody"/>
+<!--End Header-->
+<div class="wrapper">
+    <div flashes></div>
+    <section class="page-header b-bordered">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 class="title">Espace utilisateur</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="page-inner no-border">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 left-side-sidebar pr-none">
+                    <div class="docs-navigation">
+                        <ul class="nav nav-list nav-shortcodes">
+                            <li class="active">
+                                <label class="tree-toggler nav-header">Tableau de bord</label>
+                                <ul class="nav nav-list tree">
+                                    <li>
+                                        <a asp-controller="Home" asp-action="Index" asp-area="User"><i class="fa fa-dashboard"></i>Tableau de bord</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="active">
+                                <label class="tree-toggler nav-header">Mon compte</label>
+                                <ul class="nav nav-list tree">
+                                    <li>
+                                        <a asp-controller="PersonalData" asp-action="Index" asp-area="User"><i class="fa fa-user"></i>Informations personnelles</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="Footer"/>
+<partial name="Scripts"/>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -25,6 +25,8 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="wwwroot\article\image\1k_merci-5f6759c5d0ce3.jpg" />
+      <_ContentIncludedByDefault Remove="Areas\User\Views\Home\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\User\Views\Shared\_Layout.cshtml" />
     </ItemGroup>
 
     <ItemGroup>

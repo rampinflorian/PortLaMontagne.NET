@@ -1,0 +1,139 @@
+@using Microsoft.AspNetCore.Identity
+@model PortLaMontagne.Areas.User.Form.PersonalData.InputForm
+    
+@inject SignInManager<ApplicationUser> SignInManager
+    @inject UserManager<ApplicationUser> UserManager
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Mes informations";
+        
+        ApplicationUser currentUser = await UserManager.GetUserAsync(User);
+
+}
+
+@section Styles
+{
+    <link href="~/smartforms/Templates/css/smart-forms.css" rel="stylesheet"/>
+}
+
+
+<div class="smart-wrap">
+    <div class="smart-forms smart-container wrap-12">
+
+        <div class="form-header header-primary">
+            <h4><i class="fa fa-comments"></i>Informations personnelles </h4>
+        </div><!-- end .form-header section -->
+        <form asp-action="Index" asp-controller="PersonalData" asp-area="User" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            @Html.AntiForgeryToken()
+            <div class="form-body">
+                <div class="spacer-t40 spacer-b40">
+                    <div class="tagline">
+                        <span>Administratif</span>
+                    </div><!-- .tagline -->
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="section">
+                            <label class="field prepend-icon">
+                                <input asp-for="AdministrativeForm.FirstName" class="form-control gui-input"/>
+                                <span class="field-icon">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="section">
+                            <label class="field prepend-icon">
+                                <input asp-for="AdministrativeForm.LastName" class="form-control gui-input"/>
+                                <span class="field-icon">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="spacer-t40 spacer-b40">
+                    <div class="tagline">
+                        <span>changer mon mot de passe</span>
+                    </div><!-- .tagline -->
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="section">
+                            <label class="field prepend-icon">
+                                <input asp-for="UserForm.OldPassword" class="form-control gui-input"/>
+                                <span class="field-icon">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="section">
+                            <label class="field prepend-icon">
+                                <input asp-for="UserForm.NewPassword" class="form-control gui-input"/>
+                                <span class="field-icon">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="section">
+                            <label class="field prepend-icon">
+                                <input asp-for="UserForm.ConfirmPassword" class="form-control gui-input"/>
+                                <span class="field-icon">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="spacer-t40 spacer-b40">
+                <div class="tagline">
+                    <span>Stand photo</span>
+                </div><!-- .tagline -->
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="section">
+                        <label class="field prepend-icon">
+                            <input asp-for="AdministrativeForm.FormFile"/>
+                            <span class="field-icon">
+                                <i class="fa fa-upload"></i>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-3 ml-40">
+                    <img height="100" width="100" class="avatar" alt="Profile" src="~/img/user/@currentUser.Image">
+                </div>
+            </div>
+
+            <div class="spacer-t40 spacer-b40">
+                <div class="tagline">
+                    <span>Un peu plus !</span>
+                </div><!-- .tagline -->
+            </div>
+            <div class="section">
+                <label class="field prepend-icon">
+                    <input asp-for="AdministrativeForm.Description" class="form-control gui-input"/>
+                    <span class="field-icon">
+                        <i class="fa fa-user"></i>
+                    </span>
+                </label>
+            </div>
+            <div class="form-footer">
+                <button type="submit" class="btn btn-primary float-right">Enregistrer</button>
+            </div>
+        </form>
+    </div>
+</div>
