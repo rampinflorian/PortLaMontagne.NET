@@ -1,0 +1,52 @@
+@model MarketProduct
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Market";
+}
+
+<div class="col-md-9">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="xspecial-heading v2">
+                    <span>Liste des articles du Market</span>
+                </h3>
+            </div>
+            <div class="col-md-12">
+                <table class="table table-striped custab">
+                    <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Description</th>
+                        <th>Prix</th>
+                        <th>Statut</th>
+                        <th>Acheteur</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    @foreach (MarketProduct marketProduct in ViewBag.MarketProducts)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-controller="Article" asp-action="Details" asp-area="" asp-route-slug="@marketProduct.Slug">@marketProduct.Title</a>
+                            </td>
+                            <td>@Html.Raw(marketProduct.Description.Substring(0, Math.Min(marketProduct.Description.Length, 50))) @(marketProduct.Description.Length > 50 ? "[...]" : "") </td>
+                            <td>@marketProduct.Price €</td>
+                            <td>@(marketProduct.IsSold) </td>
+                            <td></td>
+                            <td>
+                                <form asp-action="Delete" onsubmit="return confirm('Voulez-vous vraiment supprimer ce commentaire ?');">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" asp-for="MarketProductId" value="@marketProduct.MarketProductId"/>
+                                    <button class="btn btn-danger btn-xs">
+                                        <span class="glyphicon glyphicon-remove"></span> suppr
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

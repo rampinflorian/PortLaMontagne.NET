@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PortLaMontagne.Data;
 
 namespace PortLaMontagne.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210831161631_AddMarketProduct")]
+    partial class AddMarketProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -254,9 +256,6 @@ namespace PortLaMontagne.Migrations
 
                     b.Property<string>("Image")
                         .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsAlert")
-                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsPublished")
                         .HasColumnType("INTEGER");

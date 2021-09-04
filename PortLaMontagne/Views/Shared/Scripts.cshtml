@@ -44,20 +44,20 @@
 
 <script>
         $(document).ready(function () {
-            // $.ajax('{{ path('default_alerts', {
-            //     success: function (data) {
-            //         if (data['alerts'] > 0) {
-            //             document.getElementById('alerts-counter').appendChild(document.createTextNode(data['alerts']));
-            //             document.getElementById('alerts-li').style.display = "block";
-            //         }
-            //     },
-            //     error: function () {
-            //         // show alert or something
-            //     }
-            // });
+             $.ajax('@Url.Action("GetArticlesAlertCount", "Layout", new {Area = "Api"}, Context.Request.Scheme)', {
+                 success: function (data) {
+                     if (data > 0) {
+                         document.getElementById('alerts-counter').appendChild(document.createTextNode(data));
+                         document.getElementById('alerts-li').style.display = "block";
+                     }
+                 },
+                 error: function () {
+                     // show alert or something
+                 }
+             });
 
             
-            $.ajax('@Url.Action("WeatherMap", "Layout", null, Context.Request.Scheme)', {
+            $.ajax('@Url.Action("GetWeatherMap", "Layout", new {Area = "Api"}, Context.Request.Scheme)', {
                 success: function (arrayValues) {
 
                     var data = JSON.parse(arrayValues);

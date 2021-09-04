@@ -280,7 +280,7 @@
                 </h2>
                 <p class="section-sub-title">Echangez, vendez votre matériel...</p>
                 <div class="col-md-12">
-                    <a class="btn standard btn-primary btn-icon-reveal item-shadow-2x" href="{{ path('market_product_index">
+                    <a class="btn standard btn-primary btn-icon-reveal item-shadow-2x" asp-controller="Market" asp-action="Index" asp-area="">
                         <i class="fa fa-shopping-cart"></i>
                         <span class="text">Accéder au market !</span>
                     </a>
@@ -308,7 +308,7 @@
                 <div class="clients-wrap carousel-wrap">
 
                     <div class="owl-carousel" data-plugin-options='{"items": @ViewBag.Partners.Count , "singleItem": false, "autoPlay": false, "dots":true}'>
-                        @foreach (Partner partner in @ViewBag.Partners)
+                        @foreach (Partner partner in ViewBag.Partners)
                         {
                             <div class="item">
                                 <figure>

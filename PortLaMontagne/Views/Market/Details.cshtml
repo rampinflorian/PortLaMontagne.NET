@@ -1,0 +1,235 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Produit - " + ViewBag.MarketProduct.Title;
+    ApplicationUser currentUser = await UserManager.GetUserAsync(User);
+
+}
+
+@section Styles {
+    <link href="~/css/bg-stylish.css" rel="stylesheet"/>
+    <link href="~/css/blog.css" rel="stylesheet"/>
+    <link href="~/vendor/light-slider/css/lightslider.css" rel="stylesheet"/>
+}
+
+
+<div class="page">
+    <div class="page-inner no-border">
+        <div class="container single-product-inner">
+            <div class="row">
+                <div class="col-md-6">
+                    <ul id="image-gallery" class="gallery list-unstyled cS-hidden">
+                        <li data-thumb="../img/market/@ViewBag.MarketProduct.Image1">
+                            <img src="~/img/market/@ViewBag.MarketProduct.Image1" alt="@ViewBag.MarketProduct.Title"/>
+                        </li>
+                        @if (ViewBag.MarketProduct.Image2 is not null)
+                        {
+                            <li data-thumb="../img/market/@ViewBag.MarketProduct.Image2">
+                                <img src="~/img/market/@ViewBag.MarketProduct.Image2" alt="@ViewBag.MarketProduct.Title"/>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="col-md-6">
+
+                    <ol class="breadcrumb clean-breadcrumb">
+                        <li>
+                            <a asp-controller="Market" asp-action="Index" asp-area=""><i class="fa fa-home" aria-hidden="true"></i> Market</a>
+                        </li>
+                        <li>
+                            <a href="#">@ViewBag.MarketProduct.Title</a>
+                        </li>
+                    </ol>
+                    @if (ViewBag.MarketProduct.Vendor.Id == currentUser?.Id)
+                    {
+                        <a href="{{ path('market_product_edit', {'slug': market_product.slug}) }}">
+                            <button class="btn btn-xs btn-primary" @(ViewBag.MarketProduct.IsSold ? "disabled" : "")>Editer</button>
+                        </a>
+                        <a href="{{ path('market_product_sold', {'slug': market_product.slug}) }}">
+                            <button class="btn btn-xs btn-primary" @(ViewBag.MarketProduct.IsSold ? "disabled" : "")>Vendu !</button>
+                        </a>
+                    }
+                    <div class="product-details">
+                        <h2 class="product-name">
+                            <a href="#">@ViewBag.MarketProduct.Title</a>
+                        </h2>
+
+                        <div class="product-price-wrap">
+
+                            <span class="product-price">
+                                <ins>
+                                    <span class="product-amount">
+                                        <span class="product-price-currency">@ViewBag.MarketProduct.Price €</span>
+                                    </span>
+                                </ins>
+                            </span>
+                        </div>
+                        <br>
+
+
+                        <div class="clearfix">
+                            <div class="tab-wrap clean-tab">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#About" role="tab">Description</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#Services" role="tab">Informations vendeur</a>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="About" role="tabpanel">
+                                        <p>
+                                            @ViewBag.MarketProduct.Description
+                                        </p>
+                                    </div>
+                                    <div class="tab-pane" id="Services" role="tabpanel">
+                                        <table class="table table-striped">
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    Vendeur : @ViewBag.MarketProduct.Vendor.FirstName
+                                                </td>
+                                                <td>
+                                                    Date de création : @ViewBag.MarketProduct.CreatedAt.ToString("d")
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        @if (ViewBag.MarketProduct.IsSold)
+                        {
+                            <h2>Le produit a été vendu !</h2>
+                        }
+                        else
+                        {
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                @if (!currentUser.EmailConfirmed)
+                                {
+                                    <h2>
+                                        Tu veux contacter le vendeur ? Ton compte doit être valide !<br>
+                                        <a href="{{ path('app_send_new_verification_email') }}">[Cliques ici]</a>
+                                    </h2>
+                                }
+                                else
+                                {
+                                    <button type="submit" class="btn btn-outline-primary btn-md product-btn" data-toggle="modal" data-target="#modal-contactVendor">
+                                        <i class="fa fa-mail"></i><span>&nbsp;Contacter le vendeur</span>
+                                    </button>
+                                }
+                            }
+                            else
+                            {
+                                <a asp-area="Identity" asp-page="/Account/Login">
+                                    <button class="btn btn-outline-primary btn-md product-btn">
+                                        <i class="fa fa-mail"></i><span>&nbsp;Contacter le vendeur</span>
+                                    </button>
+                                </a>
+                            }
+                        }
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <p>
+                            <small>
+                                <b>
+                                    Portlamontagne décline toutes responsabilités concernant la vente de matériel type EPI (Baudrier, mousquetons...) ou tout matériel lié de près ou de loin à la sécurité du
+                                    grimpeur.
+                                </b><br>
+                                <br>
+                                A toi de t'assurer du matériel avant de l'utiliser au risque de te retrouver en morceaux au pied des voies !!!
+                            </small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-contactVendor" tabindex="-1" role="dialog" aria-labelledby="modal-contactVendor" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-contactVendor">Contacter le vendeur</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {{ form_start(form) }}
+            <div class="modal-body">
+                Ce formulaire te permet de rentrer en contact avec le vendeur. N'hésites pas à préciser ton numéro de téléphone si tu préfères !<br>
+                <br>
+                {{ form_errors(form.fullName) }}
+                {{ form_widget(form.fullName) }}
+                <br>
+                {{ form_errors(form.email) }}
+                {{ form_widget(form.email) }}
+                <br>
+                {{ form_errors(form.subject) }}
+                {{ form_widget(form.subject) }}
+                <br>
+                {{ form_errors(form.message) }}
+                {{ form_widget(form.message) }}
+                <br>
+                {{ form_errors(form.captcha) }}
+                {{ form_widget(form.captcha) }}
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn standard lightgrey" data-dismiss="modal">Fermer</button>
+                <button type="submit" class="btn btn-primary">Contacter</button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script src="~/vendor/light-slider/js/lightslider.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#content-slider").lightSlider({
+                loop: true,
+                keyPress: true
+            });
+            $('#image-gallery').lightSlider({
+                gallery: true,
+                item: 1,
+                slideMargin: 0,
+                galleryMargin: 15,
+                thumbMargin: 15,
+                speed: 500,
+                auto: true,
+                loop: true,
+                onSliderLoad: function () {
+                    $('#image-gallery').removeClass('cS-hidden');
+                }
+            });
+        });
+    </script>
+    <style>
+        .lSSlideOuter .lSPager.lSGallery {
+            width: 100% !important;
+        }
+
+        .lSSlideOuter .lSPager.lSGallery li {
+            width: 100px !important;
+        }
+    </style>
+}

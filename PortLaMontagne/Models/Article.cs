@@ -42,6 +42,8 @@ namespace PortLaMontagne.Models
         [Display(Name = "Catégorie")]
         public CategoryEnum Category { get; set; }
 
+        public bool IsAlert { get; set; }
+
         private string _slug;
 
 
@@ -57,6 +59,7 @@ namespace PortLaMontagne.Models
         public Article()
         {
             CreatedAt = DateTime.Now;
+            IsAlert = false;
         }
     }
 }

@@ -27,7 +27,7 @@
                     @foreach (Comment comment in ViewBag.Comments)
                     {
                         <tr>
-                            <td>@comment.Article.Title</td>
+                            <td><a asp-controller="Article" asp-action="Details" asp-area="" asp-route-slug="@comment.Article.Slug">@comment.Article.Title</a></td>
                             <td>@comment.ApplicationUser.FullName()</td>
                             <td>@comment.CreatedAt.ToString("g")</td>
                             <td>@Html.Raw(comment.Content.Substring(0, Math.Min(comment.Content.Length, 50)))</td>

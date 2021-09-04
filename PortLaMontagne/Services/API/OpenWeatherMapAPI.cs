@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace PortLaMontagne.Services.API
 {
-    public class OpenWeatherMapAPI
+    public class OpenWeatherMapApi
     {
         public async Task<string> CallApi()
         {

@@ -30,6 +30,7 @@
       <_ContentIncludedByDefault Remove="wwwroot\articles\images\FINAL yolo test file_606a.jpeg" />
       <_ContentIncludedByDefault Remove="wwwroot\topo\image\defaultTopo-2-5f01f39c5558f.png" />
       <_ContentIncludedByDefault Remove="wwwroot\topo\image\defaultTopo-5f01f39c5558f.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\shop\ami-turtle-grey.jpg" />
     </ItemGroup>
 
     <ItemGroup>

@@ -19,7 +19,7 @@ namespace PortLaMontagne.Controllers
         [Route("", Name = "home.index")]
         public async Task<IActionResult> Index()
         {
-            ViewBag.Articles = await  _context.Articles.AsNoTracking().Where(m => m.IsPublished == true).ToListAsync();
+            ViewBag.Articles = await  _context.Articles.AsNoTracking().Where(m => m.IsPublished == true).Take(5).ToListAsync();
             ViewBag.Partners = await _context.Partners.AsNoTracking().ToListAsync();
             ViewBag.CommentsCount = await _context.Comments.AsNoTracking().CountAsync();
 
